@@ -1,0 +1,167 @@
+.logo {
+    margin-top: 1em !important;
+}
+
+#practice-icon {
+    height: 120px;
+    background: url("../images/lp-practice.png");
+    background-repeat: no-repeat;
+    background-size: 120px 120px;
+    background-position: center;
+}
+
+#improve-icon {
+    height: 120px;
+    background: url("../images/lp-improve.png");
+    background-repeat: no-repeat;
+    background-size: 120px 120px;
+    background-position: center;
+}
+
+#analyze-icon {
+    height: 120px;
+    background: url("../images/lp-analyze.png");
+    background-repeat: no-repeat;
+    background-size: 120px 120px;
+    background-position: center;
+}
+
+.main-content {
+    padding-bottom: 20px;
+}
+
+
+.homepage-top-features {
+    margin-top: 50px;
+}
+
+.homepage-top-features h2 {
+    text-align: center;
+    margin-top: 10px;
+    color: #f2f2f2;
+    font-weight: 500
+}
+
+.top-get-started-btn {
+    margin-top: 50px;
+}
+
+.homepage-top-tagline {
+    font-size: 60px;
+    color: #f2f2f2;
+    padding-top: 15px;
+    text-align: center;
+    font-weight: 700
+}
+
+.homepage-free-line {
+    text-align: center;
+    color: #f2f2f2;
+}
+
+.homepage-target-exam-line {
+    text-align: center;
+    margin-top: 5px;
+    color: rgb(200, 200, 200);
+}
+
+.top-nav li.active {
+    background-color: rgb(63, 62, 62);
+    border-radius: 5px;
+}
+
+.top-nav li.header-links:hover {
+    background-color: rgb(161, 160, 160);
+    border-radius: 5px;
+}
+
+.top-nav li a {
+    color: #f2f2f2 !important;
+}
+
+.get-started-button {
+    margin-top: 40px;
+    text-align: center
+}
+
+.get-started-button button {
+    font-size: 30px;
+    padding: 15px 80px;
+}
+
+.top-login-button {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.top-login-button button {
+    background-color: #357ebd !important;
+}
+
+.top-nav .login-button-header button {
+    background-color: #357ebd !important;
+    margin: 0.23em 1em;
+    padding: 10px 25px;
+    font-size: 14px;
+}
+
+#features {
+    background-color: rgb(248, 248, 248) !important;
+}
+
+.section-heading {
+    text-align: center;
+    margin: 0;
+    padding-bottom: 50px;
+    font-weight: 700;
+    color: rgb(63, 62, 62);
+    padding-top: 40px;
+    font-size: 55px;
+}
+
+#features .feature-image-container {
+    text-align: center;
+}
+
+#features .feature-image {
+    width: 100%;
+    vertical-align: middle;
+    float: none;
+    display: inline-block;
+    padding: 10px;
+}
+
+#features .feature-title {
+    margin: 0;
+    padding-bottom: 14px;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+#features .feature-snippet {
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+
+#services {
+    background-color: white !important;
+}
+
+.logo2 {
+    margin-top: 0.5em;
+}
+
+.about-section {
+    padding-bottom: 30px;
+}
+
+.about-section ul, ol {
+    margin-bottom: 20px !important;
+    font-size: 18px;
+}
+
+.about-section p {
+    margin-bottom: 20px !important;
+    font-size: 18px;
+}

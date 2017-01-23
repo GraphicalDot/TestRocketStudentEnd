@@ -1,0 +1,236 @@
+<div class="pageheader" ng-show="testRunning && (showInstructions || showQuestion || showQuestionList)" style="margin-bottom: 10px">
+    <div class="logopanel pull-left" style="margin-left: 50px;padding: 4px">
+        <img src="assets/images/logo.png" width="200px" />
+    </div>
+    <div class="pull-left">
+        <ul class="headermenu" style="height: 100%;">
+            <li style="height: 53px;">
+                <div style="height: 100%;">
+                    <h2 style="height: 50%;margin-top: 14px;margin-left: 8px;">
+                        <strong>{{ mockTest.name }}</strong>
+                    </h2>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="breadcrumb-wrapper badge badge-info pull-right" style="height: 54px;" ng-show="testRunning">
+        <div class="breadcrumb" style="display: inline;">
+            <h4 style="color:#fff;margin-top: 12px;" id="timer">Time left {{timeLeftStr}}</h4>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" ng-show="showInstructions" id="instructionsView">
+    <div class="panel-heading" style="text-align: center;">
+        <h4 class="panel-title">Instructions for {{ testName }} ({{ examName }})</h4>
+        <p>Please read the following instructions carefully before starting the test.</p>
+    </div>
+    <div class="panel-body test-instructions">
+        <ng-include src="'./templates/' + instructionFileName"></ng-include>
+    </div>
+    <div class="panel-footer">
+        <div class="row text-center">
+            <div class="ckbox ckbox-primary row" style="display: inline-block" ng-hide="mockTest.id">
+                <input type="checkbox" id="startConfirmation" checked="checked" ng-model="mockTest.startConfirmation">
+                <label for="startConfirmation">I have read and understood the instructions given above.</label>
+            </div>
+            <div class="row">
+                <button class="btn btn-primary" ng-click="startTest()" ng-disabled="!mockTest.startConfirmation" ng-hide="mockTest.id">Start</button>
+                <button class="btn btn-primary" ng-click="showQuestionView()" ng-show="mockTest.id">Back to Test</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12" ng-show="showQuestion" style="overflow:hidden;" id="attemptView">
+    <div class="col-md-9">
+
+        <div class="panel panel-default row" style="text-align: center;margin-bottom: 10px;height:38px">
+            <div class="panel-heading" style="padding: 6px 0 6px 0;">
+                <button class="btn panel-title subject-badge btn-xs" ng-click="selectSubject($index)" ng-repeat="subject in mockTest.subjects" ng-class="{'btn-success-alt': $index == mockTest.currentSubjectIndex, 'btn-info-alt': $index != mockTest.currentSubjectIndex}">{{subject.subject_name}}</button>
+            </div>
+        </div>
+
+        <div class="questionContainer" ng-repeat="subject in mockTest.subjects" ng-show="$index == mockTest.currentSubjectIndex">
+            <div class="panel panel-primary row" ng-repeat="question in subject.questions" ng-show="$index == mockTest.subjects[$parent.$index].currentQuestionIndex" style="height:100%;position: relative;">
+                <div class="panel-heading">
+                    <h5 class="pull-left" style="margin-top: -5px;">Question No {{$index+1}}</h5>
+                    <div class="panel-btns pull-right" style="margin-top: -15px;">
+                        <h5>{{Enums.QUESTION_TYPE[question.type]}}</h5>
+                    </div>
+                </div>
+                <div class="panel-body question-view" style="overflow: scroll;padding: 7px;position: absolute;width:100%;">
+                    <div class="content question-comprehension" mathjax-bind="true" ng-if="question.comprehension.id" ng-bind-html="sce.trustAsHtml(question.comprehension.content)" data-id="question.comprehension.id">
+                    </div>
+                    <div class="content question-text" mathjax-bind="true" data-question-id="{{question.id}}" ng-bind-html="sce.trustAsHtml(question.content)" data-id="{{ question.id }}">
+                    </div>
+                    <div data-question-options="{{question.id}}">
+                        <ul style="list-style: none;margin-left: -39px;padding-bottom: 2px;">
+                            <li class="content question-options" ng-repeat="option in question.all_options track by $index" style="margin-top: 10px !important; padding: 0 !important;">
+                                <div class="input-group mb15">
+                                    <label class="input-group-addon" style="padding-top: 11px;cursor: pointer;height: 45px;line-height: 19px;" ng-click="markOption($event, $index); $event.stopPropagation()" for="{{ [].concat(subject.subject_id, question.id, $index).join('-') }}">
+                                        <div class="ckbox ckbox-success">
+                                            <input type="checkbox" id="{{ [].concat(subject.subject_id, question.id, $index).join('-') }}" ng-checked="question.marked_options.indexOf($index) > -1">
+                                            <label for="{{ [].concat(subject.subject_id, question.id, $index).join('-') }}" style="margin-top: 2px;">{{ letterAt($index) }}</label>
+                                        </div>
+                                    </label>
+                                    <div class="form-control" style="min-height: 51px;" ng-bind-html="sce.trustAsHtml(option)"
+                                            mathjax-bind="true" data-id="{{ $index }}">
+                                    </div>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="save-view panel-footer col-md-12" style="padding: 5px;height:45px;position: absolute;">
+                    <button class="btn btn-warning mr20" ng-click="markForReviewAndNext()">Mark for Review & Next</button>
+                    <button class="btn btn-danger mr20" ng-click="resetQuestion()">Reset</button>
+                    <button class="btn btn-info mr20" ng-click="nextQuestion()">Skip</button>
+                    <button class="btn btn-primary pull-right" ng-click="saveAndNext()">Save & Next</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-3" style="padding-right: 0px !important">
+        <div class="panel panel-default" ng-repeat="subject in mockTest.subjects" ng-show="$index == mockTest.currentSubjectIndex">
+            <div class="panel-heading" style="padding: 0px;margin-bottom: 10px;height:38px;">
+                <h5 class="panel-title" style="text-align: center;"><strong style="top: 11px;position: relative;">Questions overview:</strong></h5>
+            </div>
+
+            <div class="navigationContainer panel-body col-md-12 text-center" style="overflow: scroll;background-color: white;padding: 5px 5px 0px 5px;">
+                <div class="btn-group" style="padding: 5px;width: 75%;">
+                    <button type="button" class="btn question-number-button" ng-click="selectQuestion($parent.$index, $index)"
+                            ng-repeat="question in subject.questions"
+                            ng-class="{'btn-success': !question.review && question.answered, 'btn-warning': question.review, 'btn-danger': !question.answered && !question.review && question.viewed}">
+                        <i class="fa fa-check ng-scope" ng-if="question.review && question.answered" style="position: absolute;top: 0;right: 0;"></i>
+                        {{$index+1}}</button>
+                </div>
+            </div>
+
+            <div class="panel-footer col-md-12" style="padding: 5px 5px 0px 5px;top: 5px;height:127px">
+                <div class="col-md-6" style="padding-left: 0px !important;padding-right: 0px !important;">
+                    <span class="badge badge-success pull-left" style="margin-right: 3px;"> &nbsp; </span>
+                    <span >Attempted</span>
+                </div>
+                <div class="col-md-6" style="padding-left: 0px !important;padding-right: 0px !important;">
+                    <span class="badge badge-danger pull-left" style="margin-right: 3px;"> &nbsp; </span>
+                    <span >Not Attempted</span>
+                </div>
+                <div class="col-md-6" style="padding-left: 0px !important;padding-right: 0px !important;">
+                    <span class="badge badge-warning pull-left" style="margin-right: 3px;"> &nbsp; </span>
+                    <span >To be reviewed</span>
+                </div>
+                <div class="col-md-6" style="padding-left: 0px !important;padding-right: 0px !important;">
+                    <span class="badge pull-left" style="margin-right: 3px;"> &nbsp; </span>
+                    <span>Not viewed</span>
+                </div>
+                <div class="col-md-6 pull-left mb5 mt5" style="padding-left: 0px !important;padding-right: 0px !important;">
+                    <a class="btn btn-primary" ng-click="showQuestionsView()">Question Paper</a>
+                </div>
+                <div class="col-md-6 pull-right mb5 mt5" style="padding-left: 0px !important;padding-right: 0px !important;">
+                    <a class="btn btn-info" ng-click="showInstructionsView()" style="width: 122px;">Instructions</a>
+                </div>
+                <div class="col-md-12 pull-left mb5" style="padding-left: 0px !important;padding-right: 0px !important;">
+                    <button class="btn btn-success" ng-click="submit()" style="width: 90%;">SUBMIT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12" ng-show="showQuestionList" id="questionPaperView">
+    <div class="row mb40" style="text-align: center;">
+        <button class="btn" ng-click="showQuestionView()">Back To Test</button>
+    </div>
+    <div class="col-md-12 mb40" ng-repeat="subject in mockTest.subjects">
+        <div class="col-md-12 badge badge-primary" style="text-align: center;font-size: 20px;">
+            {{subject.subject_name}}
+        </div>
+        <div class="content col-md-12 mb20" ng-click="selectQuestion($parent.$index, $index)" ng-repeat="question in subject.questions" style="border: 2px solid gray;cursor: pointer;background-color: white;">
+            <em>Question no {{$index+1}}</em>
+            <div class="col-md-12 mb10" ng-bind-html="sce.trustAsHtml(question.content)">
+            </div>
+            <div>
+                <ul style="list-style: none;margin-left: -39px;">
+                    <li class="content question-options" ng-repeat="option in question.all_options track by $index" style="margin-top: 10px !important; padding: 0 !important;">
+                        <div class="row">
+                            <div class="col-sm-1 text-center" style="font-weight:bold;">
+                                {{ letterAt($index) }}).
+                            </div>
+                            <div class="col-sm-11" style="min-height: 51px;" ng-bind-html="sce.trustAsHtml(option)">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="pull-right col-md-3"> Question Type: <em>{{Enums.QUESTION_TYPE[question.type]}}</em></div>
+        </div>
+    </div>
+    <div class="row mt10" style="text-align: center;">
+        <button class="btn" ng-click="showQuestionView()">Back To Test</button>
+    </div>
+</div>
+
+<div ng-show="showAnalysis">
+    <ng-include src="'./templates/mock_test_main_analysis.html'"></ng-include>
+    <ng-include src="'./templates/mock_test_question_wise_analysis.html'"></ng-include>
+</div>
+
+<div class="modal fade" id="conceptModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Key Concept</h4>
+            </div>
+            <div class="modal-body" ng-bind-html="questionTheory" style="font-size: 15px;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-show="[questionsResponse[modalQuestionId].status.proof_read_text_solution, questionsResponse[modalQuestionId].status.proof_read_video_solution].indexOf('1') > -1" ng-click="switchToSolution(modalQuestionId)">View Solution</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Back to analysis</button>
+            </div>
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div>
+
+<div class="modal fade" id="solutionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Question Solution</h4>
+            </div>
+            <div class="modal-body" style="font-size: 15px;">
+                <div class="media-body" style="background: white;">
+                    <div>
+                        <h4 class="heading"><strong>Question</strong></h4>
+                        <h4 class="filename" data-id="{{ questionsResponse[modalQuestionId].id }}" ng-bind-html="sce.trustAsHtml(questionsResponse[modalQuestionId].content)" mathjax-bind="true"></h4>
+                        <ul style="list-style: none;padding: 0px;border-bottom: 1px solid #dedede;">
+                            <li class="content question-options" ng-repeat="option in questionsResponse[modalQuestionId].correct_options track by $index" style="padding: 0 !important;position: relative;">
+                                <div class="opt-container correct-opt-container">
+                                    <div class="" style="margin-top: 20px;min-height: 45px;margin-left: 45px;" ng-bind-html="sce.trustAsHtml(questionsResponse[modalQuestionId].all_options[option])">
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div ng-show="questionsResponse[modalQuestionId].status.proof_read_text_solution == '1'">
+                        <h4 class="heading"><strong>Solution</strong></h4>
+                        <h4 ng-bind-html="sce.trustAsHtml(questionsResponse[modalQuestionId].text_solution)" 
+                                data-id="{{ questionsResponse[modalQuestionId].id }}" mathjax-bind="true"></h4>
+                    </div>
+                    <div ng-show="questionsResponse[modalQuestionId].status.proof_read_video_solution == '1'">
+                        <h4 class="heading"><strong>Video Solution</strong></h4>
+                        <youtube-video video-url="questionsResponse[modalQuestionId].video_solution_url" player="solutionPlayer"></youtube-video>
+                    </div>
+                </div>
+            </div>
+        </div><!-- modal-content -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-show="ontology[questionsResponse[modalQuestionId].ontology[questionsResponse[modalQuestionId].ontology.length-1]].theory" ng-click="switchToConcept(modalQuestionId)">View Concept</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Back to analysis</button>
+        </div>
+    </div><!-- modal-dialog -->
+</div>

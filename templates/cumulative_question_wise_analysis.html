@@ -1,0 +1,142 @@
+<div class="row">
+    <div class="col-md-8">
+        <h1 class="analysis-heading">Question-wise Analysis</h1>
+    </div> <!-- col-md-8 -->
+
+    <div class="col-md-2 filter-sidebar" style="position: fixed;">
+        <button class="btn btn-lg btn-danger" style="margin-bottom: 10px; width: 100%;" ng-click="showMAnalysis()">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Main Analysis
+        </button>
+        <div class="panel panel-primary question-analysis-filter-panel">
+            <div class="panel-heading">
+                <h1>Filter Questions</h1>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="filter-heading">By Type</h2>
+                    </div>
+                </div>
+                <div class="mb10"></div>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="rdio rdio-primary">
+                            <input type="radio" name="radio" value="co" id="co" name="rdio" ng-click="showFilteredQuestions($event, 'co')">
+                            <label for="co">Correct</label>
+                        </div>
+
+                        <div class="rdio rdio-danger">
+                            <input type="radio" name="radio" value="in" id="in" name="rdio" ng-click="showFilteredQuestions($event, 'in')">
+                            <label for="in">Incorrect</label>
+                        </div>
+
+                        <div class="rdio rdio-primary">
+                            <input type="radio" name="radio" value="no" id="no" name="rdio" ng-click="showFilteredQuestions($event, 'no')">
+                            <label for="no">Not Attempted</label>
+                        </div>
+
+                        <div class="rdio rdio-primary">
+                            <input type="radio" name="radio" value="all" id="all" name="rdio" ng-click="showFilteredQuestions($event, 'all')" checked="true">
+                            <label for="all">All Questions</label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-10 col-md-offset-2 subject-questions" ng-repeat="(subjectId, data) in analysis.subjects" data-scroll-sid="{{ subjectId }}">
+        <div class="panel panel-primary question-analysis-subject-panel">
+            <div class="panel-heading question-analysis-subject-heading">
+                <h1>{{ data.name }}</h1>
+            </div> <!-- panel-heading question-analysis-subject-heading -->
+            <div class="panel-body question-analysis-subject-panel-body">
+                <div class="panel indivual-ques-analysis-view" data-scroll-qid="{{ tpl[0] }}" ng-repeat="tpl in [].concat(analysis.subjects[subjectId].correct_t, analysis.subjects[subjectId].incorrect_t, analysis.subjects[subjectId].not_attempted_t)"
+                     ng-class="{'panel-primary': data.not_attempted_t.indexOf(tpl) > -1, 'panel-success': data.correct_t.indexOf(tpl) > -1, 'panel-danger': data.incorrect_t.indexOf(tpl) > -1}"
+                     ng-show="correctnessFilter=='all' || (correctnessFilter=='co' && data.correct_t.indexOf(tpl) > -1) || (correctnessFilter=='in' && data.incorrect_t.indexOf(tpl) > -1) || (correctnessFilter=='no' && data.not_attempted_t.indexOf(tpl) > -1)">
+                    <div class="panel-heading" style="color: white;">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <h4 class="question-analysis-ques-number">{{ $index+1 }}</h4>
+                            </div> <!-- col-md-1 -->
+                            <div class="col-md-2">
+                                <small class="question-analysis-attribute-label">Difficulty</small>
+                                <h5>{{ questionsResponse[tpl[0]].difficulty }} / 5</h5>
+                            </div> <!-- col-md-2 -->
+                            <div class="col-md-2">
+                                <small class="question-analysis-attribute-label">Type</small>
+                                <h5>{{ Enums.QUESTION_NATURE[questionsResponse[tpl[0]].nature] }}</h5>
+                            </div> <!-- col-md-2 -->
+                            <div class="col-md-2">
+                                <small class="question-analysis-attribute-label">Ideal Time</small>
+                                <h5>{{ questionsResponse[tpl[0]].average_time }} seconds</h5>
+                            </div> <!-- col-md-2 -->
+                            <div class="col-md-2">
+                                <small class="question-analysis-attribute-label">Your Time</small>
+                                <h5>{{ answers[tpl[1]][tpl[0]].time | number:0 }} seconds</h5>
+                            </div> <!-- col-md-2 -->
+                            <div class="col-md-2" ng-if="data.perfect_attempts[tpl[1]].indexOf(tpl[0]) > -1">
+                                <small class="question-analysis-attribute-label">Attempt Type</small>
+                                <h5>Perfect Attempt</h5>
+                            </div> <!-- col-md-2 -->
+                            <div class="col-md-2" ng-if="data.wasted_attempts[tpl[1]].indexOf(tpl[0]) > -1">
+                                <small class="question-analysis-attribute-label">Attempt Type</small>
+                                <h5>Wasted Attempt</h5>
+                            </div> <!-- col-md-2 -->
+                            <div class="col-md-2" ng-if="data.overtime_attempts[tpl[1]].indexOf(tpl[0]) > -1">
+                                <small class="question-analysis-attribute-label">Attempt Type</small>
+                                <h5>Overtime Attempt</h5>
+                            </div> <!-- col-md-2 -->
+                            <div class="col-md-2" ng-if="data.completely_wasted_attempts[tpl[1]].indexOf(tpl[0]) > -1">
+                                <small class="question-analysis-attribute-label">Attempt Type</small>
+                                <h5>Completely Wasted Attempt</h5>
+                            </div> <!-- col-md-2 -->
+                        </div> <!-- row -->
+                    </div> <!-- panel-heading -->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-8">
+                                <div class="solution-concept-ques-analysis-buttons">
+                                    <button class="btn btn-warning" ng-show="[questionsResponse[tpl[0]].status.proof_read_text_solution, questionsResponse[tpl[0]].status.proof_read_video_solution].indexOf('1') > -1" ng-click="showSolution(tpl[0])">View Solution</button>
+                                    <button class="btn btn-warning" ng-show="ontology[questionsResponse[tpl[0]].ontology[questionsResponse[tpl[0]].ontology.length-1]].theory" ng-click="showConcept(tpl[0])">View Key Concept</button>
+                                </div> <!-- solution-concept-ques-analysis-buttons -->
+                            </div> <!-- col-md-4 col-md-offset-8 -->
+                        </div> <!-- row -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="media-body">
+                                    <h4 class="filename" data-id="{{ questionsResponse[tpl[0]].id }}" ng-bind-html="sce.trustAsHtml(questionsResponse[tpl[0]].content)"></h4>
+                                    <ul class="question-options-list">
+                                        <li class="content question-options question-answer-option" ng-repeat="option in questionsResponse[tpl[0]].all_options track by $index">
+                                            <div class="opt-container" ng-class="{'correct-opt-container': questionsResponse[tpl[0]].correct_options.indexOf($index) > -1, 'incorrect-opt-container': answers[tpl[1]][tpl[0]].options.indexOf($index) > -1 && questionsResponse[tpl[0]].correct_options.indexOf($index) == -1}">
+                                                <span class="top-option-label answer-option-label" ng-class="{'correct': questionsResponse[tpl[0]].correct_options.indexOf($index) > -1, 'incorrect': answers[tpl[1]][tpl[0]].options.indexOf($index) > -1 && questionsResponse[tpl[0]].correct_options.indexOf($index) == -1, 'not_attempted': answers[tpl[1]][tpl[0]].options.indexOf($index) == -1 && questionsResponse[tpl[0]].correct_options.indexOf($index) == -1}">{{ letterAt($index) }}</span>
+                                                <div class="question-answer-text" ng-bind-html="sce.trustAsHtml(option)"></div> <!-- question-answer-text -->
+                                                <span class="bottom-option-label correct question-correct-wrong-label" ng-if="questionsResponse[tpl[0]].correct_options.indexOf($index) > -1 && answers[tpl[1]][tpl[0]].options.indexOf($index) == -1">
+                                                     <span class="glyphicon glyphicon-ok"></span> Correct Answer
+                                                </span> <!-- bottom-option-label correct question-correct-wrong-label -->
+                                                <span class="bottom-option-label correct question-correct-wrong-label" ng-if="questionsResponse[tpl[0]].correct_options.indexOf($index) > -1 && answers[tpl[1]][tpl[0]].options.indexOf($index) > -1">
+                                                    <span class="glyphicon glyphicon-ok"></span> Your Answer
+                                                </span>
+                                                <span class="bottom-option-label incorrect question-correct-wrong-label" ng-if="questionsResponse[tpl[0]].correct_options.indexOf($index) == -1 && answers[tpl[1]][tpl[0]].options.indexOf($index) > -1">
+                                                    <span class="glyphicon glyphicon-remove"></span> Your Answer
+                                                </span> <!-- bottom-option-label incorrect questionc-correct-wrong-label -->
+                                            </div> <!-- opt-container correct-opt-container -->
+                                        </li> <!-- content question-options question-answer-option -->
+
+                                    </ul> <!-- question-options-list -->
+                                </div> <!-- media-body -->
+                            </div> 
+                        </div> 
+                    </div> 
+                </div>
+                <div ng-show="correctnessFilter!='all' && ((correctnessFilter=='co' && data.correct.length == 0) || (correctnessFilter=='in' && data.incorrect.length == 0) || (correctnessFilter=='no' && data.not_attempted.length == 0))" class="panel indivual-ques-analysis-view">
+                    <div class="alert alert-warning fade in nomargin">
+                        <h4>NO QUESTIONS</h4>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>

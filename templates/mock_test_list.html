@@ -1,0 +1,126 @@
+<div class="row col-lg-12">
+    <!-- <ul class="nav nav-tabs nav-justified">
+        <li class="active"><a href="#all" data-toggle="tab"><strong>All Tests</strong></a></li>
+        <li><a href="#full-test" data-toggle="tab"><strong>Full Tests</strong></a></li>
+        <li><a href="#part-test" data-toggle="tab"><strong>Part Tests</strong></a></li>
+        <li><a href="#subject-test" data-toggle="tab"><strong>Subject Tests</strong></a></li>
+        <li><a href="#chapter-test" data-toggle="tab"><strong>Chapter Tests</strong></a></li>
+    </ul> -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="all">
+
+            <div class="row" ng-show="instituteName">
+                <div class="col-md-12">
+                    <div class="panel panel-default panel-mocktest-listing-section">
+                        <div class="panel-heading panel-mocktest-listing-heading">
+                            <h1 class="panel-title">{{ instituteName }}</h1>
+                        </div>
+                        <div class="panel-body" style="display: block;">
+                            <ng-include src="'./templates/institute_test_list.html'"></ng-include>
+                        </div><!-- panel-body -->
+                    </div><!-- panel -->
+                </div><!-- col-md-4 -->
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default panel-mocktest-listing-section">
+                        <div class="panel-heading panel-mocktest-listing-heading">
+                            <h1 class="panel-title list-test-type-heading">Chapter Tests</h1>
+                            <div class="list-test-stats-main">
+                                <small class="test-section-attempted-label">Number of Tests Attempted</small>
+                                <p class="test-section-attempted-value">
+                                    {{ studentMockTests['4'].attemptedTests }}/{{ studentMockTests['4'].totalTests }} attempted
+                                </p>
+                            </div> <!-- list-test-stats-main -->
+                        </div> <!-- panel-heading -->
+                        <div class="panel-body" style="display: block;">
+                            <ng-include src="'./templates/chapter_test_list.html'"></ng-include>
+                        </div> <!-- panel-body -->
+                    </div><!-- panel -->
+                </div> <!-- col-md-12 -->
+            </div> <!-- row -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default panel-mocktest-listing-section">
+                        <div class="panel-heading panel-mocktest-listing-heading">
+                            <h1 class="panel-title list-test-type-heading">Part Tests</h1>
+                            <div class="list-test-stats-main">
+                                <small class="test-section-attempted-label">Number of Tests Attempted</small>
+                                <p class="test-section-attempted-value">
+                                    {{ studentMockTests['2'].attemptedTests }}/{{ studentMockTests['2'].totalTests }} attempted
+                                </p>
+                            </div>
+                        </div>
+                        <div class="panel-body" style="display: block;">
+                            <ng-include src="'./templates/part_test_list.html'"></ng-include>
+                        </div><!-- panel-body -->
+                    </div><!-- panel -->
+                </div> <!-- col-md-12 -->
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default panel-mocktest-listing-section">
+                        <div class="panel-heading panel-mocktest-listing-heading">
+                            <h1 class="panel-title list-test-type-heading">Full Tests</h1>
+                            <div class="list-test-stats-main">
+                                <small class="test-section-attempted-label">Number of Tests Attempted</small>
+                                <p class="test-section-attempted-value">
+                                    {{ studentMockTests['1'].attemptedTests }}/{{ studentMockTests['1'].totalTests }} attempted
+                                </p>
+                            </div>
+                        </div>
+                        <div class="panel-body" style="display: block;">
+                            <ng-include src="'./templates/full_test_list.html'"></ng-include>
+                        </div><!-- panel-body -->
+                    </div><!-- panel -->
+                </div><!-- col-md-12 -->
+            </div>
+
+            <!-- <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="panel-btns">
+                                <a href="#" class="minimize">−</a>
+                            </div>
+                            <h1 class="panel-title">Subject Tests</h1>
+                        </div>
+                        <div class="panel-body" style="display: block;">
+                            <ng-include src="'./templates/subject_test_list.html'"></ng-include>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+        </div>
+
+        <!-- <div class="tab-pane" id="full-test">
+            <ng-include src="'./templates/full_test_list.html'"></ng-include>
+        </div>
+        <div class="tab-pane" id="part-test">
+            <ng-include src="'./templates/part_test_list.html'"></ng-include>
+        </div>
+        <div class="tab-pane" id="subject-test">
+            <ng-include src="'./templates/subject_test_list.html'"></ng-include>
+        </div>
+        <div class="tab-pane" id="chapter-test">
+            <ng-include src="'./templates/chapter_test_list.html'"></ng-include>
+        </div> -->
+
+    </div>
+</div>
+<div class="modal fade" id="prerequisiteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">{{modalTitle}}</h4>
+            </div>
+            <div class="modal-body" ng-bind-html="modalContent" style="font-size: 15px;">
+            </div>
+        </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+</div>

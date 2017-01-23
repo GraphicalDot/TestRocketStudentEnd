@@ -1,0 +1,54 @@
+<div ng-if="studentMockTests['2'] && targetExam.all.length > 0" ng-repeat="(targetExamId, targetExam) in studentMockTests['2']">
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="panel panel-dark panel-stat panel-mocktest-targetexam">
+                <div class="panel-heading">
+                    <div class="stat mocktest-list-box">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1>{{ targetExam.name }}</h1>
+                            </div> <!-- col-md-12 -->
+                        </div> <!-- row -->
+                        <div class="mb10"></div> <!-- mb10 -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="lead">{{ examSubtitle[targetExamId] }}</p>
+                            </div> <!-- col-md-12 -->
+                        </div> <!-- row -->
+                    </div> <!-- stat -->
+                </div> <!-- panel-heading -->
+            </div> <!-- panel panel-dark panel-stat -->
+        </div> <!-- col-md-3 -->
+
+        <div ng-repeat="mockTest in targetExam.all"
+            class="col-md-3" ng-class="{'col-md-offset-3': $index % 3 == 0 && $index != 0, 'hidden': !targetExam.showMore && ($index > mockTestRowSize-1)}">
+            <ng-include src="'./templates/mock_test_summary_tile.html'"></ng-include>
+        </div> <!-- col-md-3 (Will be repeated for every test in this category) -->
+
+    </div> <!-- row -->
+
+    <div class="row" ng-show="targetExam.all.length > mockTestRowSize">
+        <div class="col-md-3 col-md-offset-9" ng-show="targetExam.showMore == false">
+            <button class="btn btn-primary btn-xs mocktest-listing-view-more-btn mocktest-listing-view-btn" ng-click="showMore('2', targetExamId)">
+                View More Tests<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            </button>
+        </div>
+        <div class="col-md-3 col-md-offset-3" ng-show="targetExam.showMore == true">
+            <button class="btn btn-primary btn-xs mocktest-listing-view-btn" ng-click="showLess('2', targetExamId)">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> View Less Tests
+            </button>
+        </div>
+        <div class="mb10"></div>
+    </div><!-- row -->
+
+    <div class="row" ng-show="targetExam.all.length < mockTestRowSize">
+        <div class="mb20"></div>
+    </div>
+
+</div>
+
+<div ng-if="!studentMockTests['2']">
+    No Full Tests
+</div>

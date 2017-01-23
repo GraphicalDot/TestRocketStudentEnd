@@ -1,0 +1,30 @@
+<div ng-if="studentMockTests['3'] && targetExam.all.length > 0" ng-repeat="(targetExamId, targetExam) in studentMockTests['3']">
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row col-lg-12">
+            <div class="badge badge-primary col-md-2 temp text-center exam-type">
+                <h4>{{targetExam.name}}</h4>
+            </div>
+            <div class="col-md-10 weather mock-tests">
+                <div class="row col-lg-12" ng-repeat="(subjectId, subject) in targetExam.subjects">
+                    <div class="col-md-2 temp text-center exam-type">
+                        <h5>{{subject.name}}</h5>
+                    </div>
+                    <div class="col-md-10 weather mock-tests">
+                        <ul>
+                            <li ng-repeat="mockTest in subject.mockTests">
+                                <a popover-trigger="mouseenter" popover-title="Description" popover="{{mockTest.description}}" ng-click="mockTestClick(mockTest, '3', targetExamId)" ng-class="{ 'btn btn-primary-alt': !mockTest.attempted, 'btn btn-success-alt': mockTest.attempted, 'hidden': subject.showMore && ($index>(mockTestRowSize-1)) }">{{mockTest.name}}</a>
+                            </li>
+                        </ul>
+                        <button class="pull-right btn btn-orange btn-xs" ng-show="(subject.mockTests.length > mockTestRowSize) && (subject.showMore==false)" ng-click="showMore('3', targetExamId, subjectId)">View More</button>
+                        <button class="pull-right btn btn-orange btn-xs" ng-show="(subject.mockTests.length > mockTestRowSize) && (subject.showMore==true)" ng-click="showLess('3', targetExamId, subjectId)">View Less</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- panel-body -->
+</div>
+</div>
+<div ng-if="!studentMockTests['3']">
+    No Subject Tests
+</div>

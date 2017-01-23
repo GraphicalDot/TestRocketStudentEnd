@@ -1,0 +1,34 @@
+<div class="panel panel-stat panel-mocktest-testlisting"
+     ng-class="{'panel-primary': !mockTest.attempted, 'panel-success': mockTest.attempted, 'locked-test': mockTest.name.toLowerCase().indexOf('%lock%') > -1, 'date-closed-test': mockTest.date_closed}"
+     ng-click="mockTestClick(mockTest, '1', mockTest.target_exam)">
+    <div class="panel-heading" ng-class="{'test-not-attempted': !mockTest.attempted, 'test-attempted': mockTest.attempted}"
+         popover-trigger="{{ mockTest.syllabus ? 'mouseenter' : 'none' }}" popover-title="{{ mockTest.syllabus ? 'Syllabus' : 'Description' }}" popover="{{ mockTest.syllabus ? $sce.trustAsHtml(mockTest.syllabus) : $sce.trustAsHtml(mockTest.description) }}" popover-placement="left">
+        <div class="stat">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>{{ mockTest.name.replace("%Lock%", "") }}</h2>
+                </div> <!-- col-md-12 -->
+            </div> <!-- row -->
+            <div class="mb15"></div>
+            <div class="row mock-test-listing-attempt-difficulty">
+                <div class="col-md-6" ng-show="mockTest.type != 'chapter'">
+                    <small class="stat-label">Cut Off</small>
+                    <h4>{{ mockTest.cutoff }}%</h4>
+                </div><!-- col-md-6 -->
+                <div class="col-md-6" ng-show="mockTest.type == 'chapter'">
+                    <small class="stat-label">Target Exam</small>
+                    <h4>{{ Enums.TARGET_EXAMS[mockTest.target_exam] }}</h4>
+                </div><!-- col-md-6 -->
+                <div class="col-md-6" ng-show="!mockTest.attempted">
+                    <small class="stat-label">Attempt</small>
+                    <h4>Not Attempted</h4>
+                </div><!-- col-md-6 -->
+                <div class="col-md-6" ng-show="mockTest.attempted">
+                    <small class="stat-label">Attempt</small>
+                    <h4 ng-show="mockTest.score != null">{{ mockTest.percentage_marks.toFixed(1) }}% ({{ mockTest.score.toFixed(1) }}/{{ mockTest.maximum_marks }})</h4>
+                    <h4 ng-show="mockTest.score == null">Running</h4>
+                </div><!-- col-md-6 -->
+            </div>
+        </div><!-- stat -->
+    </div> <!-- panel-heading -->
+</div>

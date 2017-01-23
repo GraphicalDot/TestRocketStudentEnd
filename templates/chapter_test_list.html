@@ -1,0 +1,47 @@
+<div ng-repeat="(subjectId, subject) in studentMockTests['4'].subjects">
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="panel panel-dark panel-stat panel-mocktest-targetexam">
+                <div class="panel-heading">
+                    <div class="stat mocktest-list-box">
+                        <div class="row">
+                            <div class="col-md-12" style="padding-top: 25px;">
+                                <h1>{{ subject.name }}</h1>
+                            </div> <!-- col-md-12 -->
+                        </div> <!-- row -->
+                        <div class="mb10"></div> <!-- mb10 -->
+                    </div> <!-- stat -->
+                </div> <!-- panel-heading -->
+            </div> <!-- panel panel-dark panel-stat -->
+        </div> <!-- col-md-3 -->
+
+        <div ng-repeat="mockTest in subject.mockTests"
+            class="col-md-3 ng-class:{'col-md-offset-3': $index % 3 == 0 && $index != 0,
+                                      'hidden': !subject.showMore && ($index > mockTestRowSize-1)}">
+            <ng-include src="'./templates/mock_test_summary_tile.html'"></ng-include>
+        </div> <!-- col-md-3 (Will be repeated for every test in this category) -->
+        
+    </div>
+
+    <div class="row" ng-show="subject.mockTests.length > mockTestRowSize">
+        <div class="col-md-3 col-md-offset-9" ng-show="subject.showMore == false">
+            <button class="btn btn-primary btn-xs mocktest-listing-view-more-btn mocktest-listing-view-btn"
+                    ng-click="showMore('4', subjectId)">
+                View More Tests<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            </button>
+        </div>
+        <div class="col-md-3 col-md-offset-3" ng-show="subject.showMore == true">
+            <button class="btn btn-primary btn-xs mocktest-listing-view-btn" ng-click="showLess('4', subjectId)">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> View Less Tests
+            </button>
+        </div>
+        <div class="mb10"></div>
+    </div><!-- row -->
+
+    <div class="row" ng-show="subject.mockTests.length < mockTestRowSize">
+        <div class="mb20"></div>
+    </div>
+
+</div>
