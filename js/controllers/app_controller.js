@@ -39,36 +39,7 @@ define(['./module', 'underscore', 'highcharts', 'store', 'jquery'], function (co
         $state.transitionTo('student_signin')
         //location.hash = '/student_signin';
     else {
-        window.hideLoader = function() {
-            // Page Preloader
-            $('#status').fadeOut();
-            $('#preloader').delay(50).fadeOut(function(){
-                $('body').delay(50).css({'overflow':'visible'});
-            });
-        };
-
-        window.showLoader = function() {
-            // Page Preloader
-            $('#status').fadeIn();
-            $('#preloader').show();
-            $('body').css({'overflow':'visible'});
-        };
-
-        window.jQuery = $;
-    
-        //$(window).load(hideLoader);
-    
-            // the popover template block taken from http://stackoverflow.com/a/21979258
-            $templateCache.put("template/popover/popover.html",
-                "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
-                "  <div class=\"arrow\"></div>\n" +
-                "\n" +
-                "  <div class=\"popover-inner\">\n" +
-                "      <h3 class=\"popover-title\" ng-bind-html=\"title | unsafe\" ng-show=\"title\"></h3>\n" +
-                "      <div class=\"popover-content\"ng-bind-html=\"content | unsafe\"></div>\n" +
-                "  </div>\n" +
-                "</div>\n" +
-                "");
+        
 
             $rootScope.user = store.get('user');
             $http.defaults.headers.common['Authorization'] = 'Basic ' + btoa('student' + '|' + $rootScope.user.id + ":" + $rootScope.user.password);

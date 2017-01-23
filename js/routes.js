@@ -26,7 +26,8 @@ define(['./newapp'], function(newapp) {
         .state('student_signin',{
             url: '/student_signin',
             templateUrl: 'templates/student_signin.html',
-            controller: 'StudentSignInCtrl'
+            controller: 'StudentSignInCtrl',
+            css: ["../assets/css/style.default.css", "../assets/css/custom.css", "../assets/images/favicon.png"],
         })
         .state('app',{
             url: '/app',

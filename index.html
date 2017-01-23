@@ -67,12 +67,6 @@
     <script type="text/javascript"
             src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     <script type="text/javascript">
-        jQuery(document).ready(function ($) {
-            $(".scroll").click(function (event) {
-                event.preventDefault();
-                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
-            });
-        });
         mixpanel.track("Landing Page Loaded");
     </script>
     <!-- start-smoth-scrolling -->

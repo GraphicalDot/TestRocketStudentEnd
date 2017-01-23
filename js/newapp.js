@@ -26,11 +26,51 @@ define([
         'youtube-embed',
         'duScroll',
         'highcharts-ng',
-    ]).controller("entryCtrl", ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
+    ]).controller("entryCtrl", ['$scope', '$rootScope', '$state', '$templateCache', function ($scope, $rootScope, $state, $templateCache) {
             $rootScope.logout = function(){
                 store.remove('user');
                 location.href = '/';
             };
+
+
+
+            window.hideLoader = function() {
+            // Page Preloader
+            $('#status').fadeOut();
+            $('#preloader').delay(50).fadeOut(function(){
+                $('body').delay(50).css({'overflow':'visible'});
+            });
+        };
+
+        window.showLoader = function() {
+            // Page Preloader
+            $('#status').fadeIn();
+            $('#preloader').show();
+            $('body').css({'overflow':'visible'});
+        };
+
+        window.jQuery = $;
+    
+        //$(window).load(hideLoader);
+    
+            // the popover template block taken from http://stackoverflow.com/a/21979258
+            $templateCache.put("template/popover/popover.html",
+                "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
+                "  <div class=\"arrow\"></div>\n" +
+                "\n" +
+                "  <div class=\"popover-inner\">\n" +
+                "      <h3 class=\"popover-title\" ng-bind-html=\"title | unsafe\" ng-show=\"title\"></h3>\n" +
+                "      <div class=\"popover-content\"ng-bind-html=\"content | unsafe\"></div>\n" +
+                "  </div>\n" +
+                "</div>\n" +
+                "");
+
+
+
+
+
+
+
 
 
         $rootScope.URL = "http://localhost:8080" //This is the url on which all the backend apis will be accessed

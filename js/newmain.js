@@ -1,6 +1,9 @@
 require.config({
     paths: {
         jquery: "//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min",
+        jquerymigrate: "libs/jquery-migrate-1.2.1.min",
+        modernizr: "libs/modernizr.min",
+
         //"jquery-migrate": "libs/jquery-migrate-1.2.1.min",
         bootstrap: "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min",
         //modernizr: "libs/modernizr.min",
@@ -36,9 +39,14 @@ require.config({
         jquery: {
             exports: 'jQuery'
         },
-        /*"jquery-migrate": {
-            deps: ['jquery']
-        },*/
+        jquerymigrate: {
+            deps: ['jquery'],
+             exports: 'jQuery'
+        },
+        modernizr: {
+            deps: ['jquery'],
+             exports: 'Modernizr'
+        },
         "chosen-jquery": {
             deps: ['jquery']
         },

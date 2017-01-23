@@ -8,5 +8,6 @@ define([
     './mock_test_list',
     './mock_test',
     './cumulative_analysis',
-    './main_controller'
+    './main_controller',
+    './student_signin_controller'
 ], function () {});
