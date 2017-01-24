@@ -4,9 +4,9 @@ define(['./module', 'underscore', 'highcharts', 'store', 'jquery'], function (co
 
     	//This $scope.on function will be executed only after the loading of template
     	//Otherwise you couldnt gurantee which loads first the template or the function content
-    	$scope.$on('$stateChangeSuccess', function () {
+    	//$scope.$on('$stateChangeSuccess', function () {
 
-});
+		//});
 
         return false;
     }]);

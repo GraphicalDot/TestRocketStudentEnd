@@ -9,15 +9,15 @@
   <title>TestRocket | Login</title>
 
 
-
-    <!-- start Mixpanel --><script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
+    <!-- start Mixpanel <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
     typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);
     b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
-    mixpanel.init("6397edeccae8afcf331f7ae9ef1fc0fd", { track_pageview: false });</script><!-- end Mixpanel -->
+    mixpanel.init("6397edeccae8afcf331f7ae9ef1fc0fd", { track_pageview: false });</script>end Mixpanel 
 
     <script type="text/javascript">
         mixpanel.track("Login Page Loaded")
     </script>
+    -->
     
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -84,18 +84,18 @@
             
             <div class="col-md-6">
                 
-                <form>
+                <form ng-submit="loginStudent()">
                     <h4 class="nomargin">Sign In</h4>
                     <p class="mt5 mb20">Login to access your account.</p>
                     <p class="mt5 mb20">Not a member? <a ui-sref="student_signup"><strong>Sign Up</strong></a></p>
                     <div class="form-group">
                         
                         <label for="name" class="error" ng-show="isloggedIn">Email/Password are incorrect.</label>
-                        <label for="name" class="text-success">Password has been reset.</label>
+                        <label for="name" class="text-success" ng-show="isPasswordReset">Password has been reset.</label>
                         
-                        <input type="email" class="form-control email" required placeholder="email" name="email" ng-model="email"/>
-                        <input type="password" class="form-control pword" required placeholder="Password" name="password" ng-model="password"/> 
-                        <a href="/student_forgot_password"><small>Forgot Your Password?</small></a>
+                        <input type="email" class="form-control email" required placeholder="email" name="email" ng-model="login.email"/>
+                        <input type="password" class="form-control pword" required placeholder="Password" name="password" ng-model="login.password"/> 
+                        <a ui-sref="/student_forgot_password"><small>Forgot Your Password?</small></a>
                         <button class="btn btn-success btn-block" id="login-btn">Sign In</button>
                     </div>
                     

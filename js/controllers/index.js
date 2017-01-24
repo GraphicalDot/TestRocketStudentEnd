@@ -10,5 +10,6 @@ define([
     './cumulative_analysis',
     './main_controller',
     './student_signin_controller',
-    './student_signup_controller'
+    './student_signup_controller',
+    './app_controller'
 ], function () {});

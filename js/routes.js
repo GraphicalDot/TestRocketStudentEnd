@@ -1,3 +1,5 @@
+//Ensure that every route is accessible only when the user is looged in 
+
 define(['./newapp'], function(newapp) {
     'use strict';
     return newapp.config(function($stateProvider) {
@@ -27,6 +29,7 @@ define(['./newapp'], function(newapp) {
             url: '/student_signin',
             templateUrl: 'templates/student_signin.html',
             controller: 'StudentSignInCtrl',
+
             data: {
            
                 }
@@ -42,8 +45,8 @@ define(['./newapp'], function(newapp) {
         })
         .state('app',{
             url: '/app',
-            templateUrl: 'app.html',
-            controller: 'appCtrl'
+            templateUrl: 'templates/app.html',
+            controller: 'AppCtrl'
         })
 
 

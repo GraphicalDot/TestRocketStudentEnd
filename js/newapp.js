@@ -105,14 +105,19 @@ define([
                 "</div>\n" +
                 "");
 
+
+            //CHeck if user exists, that means either the user is coming from the signin state
+            var user = store.get('user');
+
             if (!user) {
                 console.log("User not signed in ")
                 $state.transitionTo('main') 
             } else {
             $rootScope.user = store.get('user');
             $http.defaults.headers.common['Authorization'] = 'Basic ' + btoa('student' + '|' + $rootScope.user.id + ":" + $rootScope.user.password);
-            if (location.hash == '' || location.hash.slice(1).trim() == '')
-                $state.transitionTo('mock_tests');
+            $state.transitionTo('app');
+            //if (location.hash == '' || location.hash.slice(1).trim() == '')
+            /*
             if('1'=='2'){
                 mixpanel.identify($rootScope.user.email);
                 mixpanel.people.set({
@@ -121,9 +126,10 @@ define([
                     'email': $rootScope.user.email
                 });
             }
+            */
         }
             }])
-
+ 
     newapp.directive('mathjaxBind', function ($compile) {
         return {
             restrict: 'A',
