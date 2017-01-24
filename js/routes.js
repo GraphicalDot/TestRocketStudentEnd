@@ -27,7 +27,18 @@ define(['./newapp'], function(newapp) {
             url: '/student_signin',
             templateUrl: 'templates/student_signin.html',
             controller: 'StudentSignInCtrl',
-            css: ["../assets/css/style.default.css", "../assets/css/custom.css", "../assets/images/favicon.png"],
+            data: {
+           
+                }
+        })
+
+        .state('student_signup',{
+            url: '/student_signup',
+            templateUrl: 'templates/student_signup.html',
+            controller: 'StudentSignUpCtrl',
+            data: {
+            
+                }
         })
         .state('app',{
             url: '/app',

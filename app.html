@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!--
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -9,13 +8,9 @@
 
     <title>Test App</title>
 
-    <link href="assets/css/style.default.css" rel="stylesheet">
-    <link href="assets/css/jquery.datatables.css" rel="stylesheet">
-    <link href="assets/css/custom.css" rel="stylesheet">
 
 
-    <!-- start Mixpanel -->
-<!-- 
+    start Mixpanel 
     <script type="text/javascript">(function (e, b) {
         if (!b.__SV) {
             var a, f, i, g;
@@ -56,21 +51,23 @@
         }
     })(document, window.mixpanel || []);
     mixpanel.init("6397edeccae8afcf331f7ae9ef1fc0fd", {track_pageview: false});</script>
--->
-    <!-- end Mixpanel -->
+
+    end Mixpanel
 
     <style>
+    /*These are now present in index.html so need to include this scipr into this page
         button.page-sections {
             font-size: large !important;
             padding: 12px 50px !important;
             line-height: 24px !important;
         }
+        */
     </style>
 </head>
 
 <body>
 
-
+-->
 <section ng-controller="AppCtrl">
 
     <div class="headerbar" ng-hide="testRunning" style="height: 61px;">
@@ -147,6 +144,6 @@
 <script src="js/libs/respond.min.js"></script>
 <![endif]-->
 
-<script data-main="js/main.js" src="js/libs/require.js"></script>
-</body>
-</html>
+
+
+

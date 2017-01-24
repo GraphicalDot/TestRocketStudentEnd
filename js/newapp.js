@@ -1,5 +1,11 @@
 'use strict';
 
+//The https://www.startersquad.com/blog/angularjs-requirejs/ here is the link which describes the 
+//the holistic level architecture of this application
+
+//For brief introduction to use require.js with angular application
+//Read:http://beletsky.net/2013/11/using-angular-dot-js-with-require-dot-js.html
+
 define([
     'angular',
     'store',
@@ -10,6 +16,7 @@ define([
     'angular-youtube-embed',
     'angular-scroll',
     'highcharts-ng',
+    'uiRouterStyles',
     './controllers/index',
     './services/index',
     './filters/index',
@@ -26,6 +33,7 @@ define([
         'youtube-embed',
         'duScroll',
         'highcharts-ng',
+        "uiRouterStyles"
     ]).controller("entryCtrl", ['$scope', '$rootScope', '$state', '$templateCache', function ($scope, $rootScope, $state, $templateCache) {
             $rootScope.logout = function(){
                 store.remove('user');

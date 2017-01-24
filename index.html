@@ -14,10 +14,69 @@
     <link href="assets/css/landing-page-style.css" rel='stylesheet' type='text/css'/>
 
     <link href="assets/css/landing-page-custom.css" rel='stylesheet' type='text/css'/>
+    <link rel='stylesheet' href='../node_modules/angular-loading-bar/build/loading-bar.min.css' type='text/css' media='all' />
+
 
     <!-- Custom Theme files -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="assets/css/style.default.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/custom.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/jquery.datatables.css" rel="stylesheet">
+    
+    <style>
+        button.page-sections {
+            font-size: large !important;
+            padding: 12px 50px !important;
+            line-height: 24px !important;
+        }
+    </style>
+    <style type="text/javascript">
+                event.preventDefault();
 
+            var pull = $('#pull');
+            var menu = $('nav ul');
+            var menuHeight = menu.height();
+            $(pull).on('click', function (e) {
+                e.preventDefault();
+                menu.slideToggle();
+            });
+            $(window).resize(function () {
+                var w = $(window).width();
+                if (w > 320 && menu.is(':hidden')) {
+                    menu.removeAttr('style');
+                }
+            });
+
+            //Meant for clicking on the nav li and navigating and scrolling to the mentioned feature
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
+            });
+
+            $('#contact-us').submit(function () {
+                $('#contact-us input[type="submit"]').attr('disabled', true);
+                console.log($rootScope.URL)
+                $.ajax({
+                    type: "POST",
+                    url: "/api/contact_us",
+                    data: {
+                        name: $('#contact-us input[name="name"]').val(),
+                        email: $('#contact-us input[name="email"]').val(),
+                        message: $('#contact-us textarea[name="message"]').val()
+                    }
+                })
+
+                .done(function (data) {
+                            $('#contact-us input[name="name"]').val('');
+                            $('#contact-us input[name="email"]').val('');
+                            $('#contact-us textarea[name="message"]').val('');
+                            $('#contact-us input[type="submit"]').attr('disabled', false);
+                            $("#contact_us_confirmation").show();
+                            $("#contact_us_confirmation").fadeOut(3000);
+                        });
+                return false;
+            });
+    </style>
     <!-- start Mixpanel -->
     <!--
     <script type="text/javascript">(function (e, b) {

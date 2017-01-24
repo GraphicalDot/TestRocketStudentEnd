@@ -1,9 +1,13 @@
+
+//uiRouterStyles: this is to include css files from the ui-router ,more information is available a
+//thttps://www.npmjs.com/package/angular-ui-router-styles
 require.config({
     paths: {
         jquery: "//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min",
         jquerymigrate: "libs/jquery-migrate-1.2.1.min",
         modernizr: "libs/modernizr.min",
-
+        uiRouterStyles: "../node_modules/angular-ui-router-styles/ui-router-styles",
+        angularloadingbar: "../node_modules/angular-loading-bar/build/loading-bar.min",
         //"jquery-migrate": "libs/jquery-migrate-1.2.1.min",
         bootstrap: "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min",
         //modernizr: "libs/modernizr.min",
@@ -30,6 +34,10 @@ require.config({
         angular: {
             exports: 'angular'
         },
+        angularloadingbar: {
+            deps: ['angular'],
+            exports: 'angular-loading-bar',
+        },
         'ui-router': {
             deps: ['angular']
         },
@@ -42,6 +50,10 @@ require.config({
         jquerymigrate: {
             deps: ['jquery'],
              exports: 'jQuery'
+        },
+        uiRouterStyles: {
+            deps: ['angular'],
+             exports: 'uiRouterStyles'
         },
         modernizr: {
             deps: ['jquery'],
