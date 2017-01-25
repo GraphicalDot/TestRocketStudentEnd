@@ -1,47 +1,43 @@
 define(['./module', 'underscore', 'store', "jquery"], function (controllers, _, store, $) {
     'use strict';
-    controllers.controller('StudentSignInCtrl', ['$scope', '$state', '$rootScope', function($scope, $state, $rootScope){
+    controllers.controller('StudentSignInCtrl', ['$scope', '$state', '$rootScope', '$http', function($scope, $state, $rootScope, $http){
 
 
-    	$scope.login = function(){
-    		$scope.loggedIn = false
-  
 
-    		console.log("login button has been clicked" + $scope.password + $scope.email)
-    		console.log($rootScope.URL + "/student_signin")
-    		window.showLoader()
-    		$.ajax({
-                    type: "POST",
-                    url: $rootScope.URL + "student_signin",
-                    data: {
-                        email: $scope.email,
-                        password: $scope.password
+            $scope.loginStudent = function(){
+                $scope.url = $rootScope.URL + "/student_signin"
+                var data = JSON.stringify($scope.login)
+                
+               
+                $http.post($scope.url, data).then(function(response, status, headers, config){
+                    //If the user credentials are true only then it will redirect to app
+                    if(response.data.success == true){
+                    var token = response.data.token;
+                    var tokenParts = token.split('|');
+                    console.log(token)
+                    console.log(tokenParts)
+                    user = {
+                            name: atob(tokenParts[3]),
+                            id: parseInt(tokenParts[2]),
+                            email: atob(tokenParts[0]),
+                            password: tokenParts[1],
+                            target_exams: atob(tokenParts[4]).split(','),
+                            type: 'student'
+                                };
+                    store.set('user', user);
+                    $state.transitionTo('app');
                     }
-                })
-
-                .done(function (data) {
-                            "user updated successfully"
-                        });
-                return false;
-
-                var req = {
-                        method: 'POST',
-                        url: $rootScope.URL + "student_signin",
-                         headers: {
-                           'Content-Type': undefined
-                         },
-                         data: { 
-                                email: $scope.email,
-                                password: $scope.password 
-                        }
-                        }
-
-                        $http(req).then(function(token){
-                            comsole.log(token)
-                        }, function(){
-                                console.log("sab chutiya hian")
+                    else {
+                        $scope.isloggedIn = true;
+                    }              
+                    
+                        }, function(response, satus,  headers, config){
+                                console.log(response)
 
                         });
+
+
+
                                    
     	               }
 

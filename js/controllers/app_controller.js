@@ -20,6 +20,7 @@ define(['./module', 'underscore', 'highcharts', 'store', 'jquery'], function (co
              var user = store.get('user');
 
     // if redirected from successful signup/signin then set user
+    /*
     if (location.hash.indexOf('#token=') == 0) {
         var token = location.hash.slice(7);
         var tokenParts = token.split('|');
@@ -34,7 +35,7 @@ define(['./module', 'underscore', 'highcharts', 'store', 'jquery'], function (co
         store.set('user', user);
         location.hash = '';
     }
-    
+    */
     if (!user)
         $state.transitionTo('student_signin')
         //location.hash = '/student_signin';

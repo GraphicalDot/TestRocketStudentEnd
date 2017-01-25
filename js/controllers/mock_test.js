@@ -36,13 +36,15 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
             };
 
             $scope.startTest = function () {
+                /*
                 if('1'=='2'){
                     mixpanel.track("Mock Test Started", {
                         'Test Name': $scope.testName,
                         'Target Exam': $scope.examName,
                     });
                 }
-
+                */
+        
                 if (!$scope.mockTest.startConfirmation)
                     return false;
                 $state.params.attempted = true;
