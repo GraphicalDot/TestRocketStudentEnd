@@ -16,7 +16,7 @@ define(['./module', 'underscore', 'store', "jquery"], function (controllers, _, 
                     var tokenParts = token.split('|');
                     console.log(token)
                     console.log(tokenParts)
-                    user = {
+                    var user = {
                             name: atob(tokenParts[3]),
                             id: parseInt(tokenParts[2]),
                             email: atob(tokenParts[0]),
