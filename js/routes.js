@@ -2,7 +2,8 @@
 
 define(['./newapp'], function(newapp) {
     'use strict';
-    return newapp.config(function($stateProvider) {
+    return newapp.config(function($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise('/index');
         $stateProvider
         .state('app',{
             url: '/app',

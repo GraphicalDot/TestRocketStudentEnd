@@ -24,6 +24,7 @@ define(['./module', 'underscore', 'store', "jquery"], function (controllers, _, 
                             target_exams: atob(tokenParts[4]).split(','),
                             type: 'student'
                                 };
+                    console.log("student_signin.js: " + "User = " + user  )
                     store.set('user', user);
                     $state.transitionTo('app');
                     }

@@ -110,7 +110,7 @@ define([
             var user = store.get('user');
 
             if (!user) {
-                console.log("User not signed in from newpp.js")
+                console.log("newapp.js:" + "  User not signed in from")
                 $state.transitionTo('main') 
             } else {
             $rootScope.user = store.get('user');

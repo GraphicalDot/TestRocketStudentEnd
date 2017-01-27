@@ -13,6 +13,7 @@ define([
 ], function (require, ng, newapp, routes, $, store, _) {
     'use strict';
 
+    console.log("bootcalled")
     /*
      * place operations that need to initialize prior to app start here
      * using the `run` function on the top-level module

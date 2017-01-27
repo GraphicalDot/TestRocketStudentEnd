@@ -19,12 +19,13 @@ define(['./module', 'underscore', 'highcharts', 'store', 'jquery'], function (co
         
         var init = function(){
             var user = store.get('user');
-            console.log("From controllers/app_controller.js"+ "this is the user" + user)
-
+            $rootScope.user = user
+            console.log(user)
             if (user == undefined){
                 $state.transitionTo('student_signin')
                 //location.hash = '/student_signin';
             }else {
+                console.log("app_controller.js: " + "User: " + $rootScope.user)
                 $rootScope.user = store.get('user');
                 $http.defaults.headers.common['Authorization'] = 'Basic ' + btoa('student' + '|' + $rootScope.user.id + ":" + $rootScope.user.password);
                 if (location.hash == '' || location.hash.slice(1).trim() == '')
