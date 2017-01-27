@@ -76,6 +76,24 @@ define(['./newapp'], function(newapp) {
             data: {
             
                 }
+        })      
+
+        .state('reset_password',{
+            url: '/reset_password',
+            templateUrl: 'templates/student_reset_password.html',
+            controller: 'StudentResetPasswordCtrl',
+            data: {
+            
+                }
+        }) 
+
+        .state('forgot_password',{
+            url: '/fogot_password',
+            templateUrl: 'templates/student_forgot_password.html',
+            controller: 'StudentForgotPasswordCtrl',
+            data: {
+            
+                }
         })
        
 

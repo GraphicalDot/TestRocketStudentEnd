@@ -11,5 +11,7 @@ define([
     './main_controller',
     './student_signin_controller',
     './student_signup_controller',
+    './student_forgot_password_controller',
+    './student_reset_password_controller',
     './app_controller'
 ], function () {});
