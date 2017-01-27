@@ -1,8 +1,12 @@
+//mockTestInstructions
+//enums are all custom services present in services folder
+
 define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) {
     'use strict';
     controllers.controller('MockTestCtrl', ['$scope', '$rootScope', '$state', '$interval', '$timeout', '$sce', 'Ontology', 'AttemptedMockTests',
-        'AttemptedMockTest', 'StudentMockTestQuestions', 'enums', 'subjectClassMap', 'mockTestInstructions', '$document', function ($scope, $rootScope, $state, $interval, $timeout, $sce, Ontology, AttemptedMockTests, AttemptedMockTest,
-                                                                                                                                    StudentMockTestQuestions, Enums, subjectClassMap, mockTestInstructions, $document) {
+        'AttemptedMockTest', 'StudentMockTestQuestions', 'enums', 'subjectClassMap', 'mockTestInstructions', '$document', 
+        function ($scope, $rootScope, $state, $interval, $timeout, $sce, Ontology, AttemptedMockTests, AttemptedMockTest,
+         StudentMockTestQuestions, Enums, subjectClassMap, mockTestInstructions, $document) {
             var setAttemptViewStyle = function() {
                 $timeout(function() {
                     var headerPlusMargin = 65;
@@ -48,7 +52,6 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
                 if (!$scope.mockTest.startConfirmation)
                     return false;
                 $state.params.attempted = true;
-                showLoader();
                 new StudentMockTestQuestions.get({
                     mock_test_id: $state.params.id
                 }).$promise.then(function (resp) {
@@ -118,8 +121,8 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
                                 });
                                 hideLoader();
 				setAttemptViewStyle();
-                            });
-                        }
+                            }); //End of ontology api call promise
+                        } //End of else staement on studentMOckTestQuestion promise
                     });
 
             };

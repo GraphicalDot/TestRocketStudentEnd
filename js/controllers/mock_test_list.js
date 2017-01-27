@@ -14,6 +14,41 @@ define(['./module', 'underscore'], function (controllers, _) {
         $scope.$sce = $sce;
 
         var ontology = Ontology.list();
+
+        //""http://localhost:8080" + '/student_mock_test'
+         //         {'institute_name': None,
+         // 'mock_tests': {'0': {},
+         //                '1': {'1': {'attempted': [],
+         //                            'not_attempted': [{'created_at': '2017-01-24 21:00:00.589864',
+         //                                               'cutoff': 70.0,
+         //                                               'date_closed': False,
+         //                                               'description': None,
+         //                                               'difficulty': '1',
+         //                                               'id': 1,
+         //                                               'name': u'Stochiometry',
+         //                                               'opening_date': 'None',
+         //                                               'prerequisite_id': None,
+         //                                               'pushed_id': None,
+         //                                               'syllabus': None,
+         //                                               'target_exam': '1',
+         //                                               'type_id': None},
+         //                                              {'created_at': '2017-01-24 21:00:32.498534',
+         //                                               'cutoff': 30.0,
+         //                                               'date_closed': False,
+         //                                               'description': None,
+         //                                               'difficulty': '1',
+         //                                               'id': 2,
+         //                                               'name': u'StochiometryTwo',
+         //                                               'opening_date': 'None',
+         //                                               'prerequisite_id': None,
+         //                                               'pushed_id': None,
+         //                                               'syllabus': None,
+         //                                               'target_exam': '1',
+         //                                               'type_id': None}]}},
+         //                '2': {},
+         //                '3': {},
+         //                '4': {}}}
+
         var studentMockTestList = StudentMockTests.list();
 
 
@@ -27,6 +62,7 @@ define(['./module', 'underscore'], function (controllers, _) {
                 $scope.ontology = {};
                 nodes.forEach(function(node) {
                     $scope.ontology[node.id] = node;
+                   
                 });
 
                 // get mock tests that the student has attempted or can attempt
@@ -226,7 +262,7 @@ define(['./module', 'underscore'], function (controllers, _) {
                 }
             } else {
                 showLoader();
-                $state.go('mock_test', {id: mockTest.id, pushed_id: mockTest.pushed_id, attempted: mockTest.attempted, attempted_id: mockTest.attempted_id, exam: targetExam, test_name: mockTest.name});
+                $state.go('app.mock_test', {id: mockTest.id, pushed_id: mockTest.pushed_id, attempted: mockTest.attempted, attempted_id: mockTest.attempted_id, exam: targetExam, test_name: mockTest.name});
             }
 
         };
@@ -234,3 +270,5 @@ define(['./module', 'underscore'], function (controllers, _) {
         $scope.mockTestRowSize = 3;
     }]);
 });
+
+ 

@@ -1,0 +1,11 @@
+
+button.page-sections {
+            font-size: large !important;
+            padding: 12px 50px !important;
+            line-height: 24px !important;
+        }
+
+
+    [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-    ng-cloak {
+        display: none !important;
+    }

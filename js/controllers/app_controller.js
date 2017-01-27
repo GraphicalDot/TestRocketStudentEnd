@@ -1,6 +1,8 @@
+//BUg $scope.init is executing twice 
+
 define(['./module', 'underscore', 'highcharts', 'store', 'jquery'], function (controllers, _, highcharts, store, $) {
     'use strict';
-    controllers.controller('AppCtrl', ['$scope', '$rootScope', '$state', function ($scope, $rootScope, $state) {
+    controllers.controller('AppCtrl', ['$scope', '$rootScope', '$state', '$http', function ($scope, $rootScope, $state, $http) {
             $rootScope.logout = function(){
                 store.remove('user');
                 location.href = '/';
@@ -14,17 +16,15 @@ define(['./module', 'underscore', 'highcharts', 'store', 'jquery'], function (co
                     }
                 }
             });
-        }])
-        .run(['$rootScope', '$state', '$http', '$templateCache', function($rootScope, $state, $http, $templateCache) {
-
+        
+        var init = function(){
             var user = store.get('user');
             console.log("From controllers/app_controller.js"+ "this is the user" + user)
 
-            if (!user){
+            if (user == undefined){
                 $state.transitionTo('student_signin')
                 //location.hash = '/student_signin';
-            }
-            else {
+            }else {
                 $rootScope.user = store.get('user');
                 $http.defaults.headers.common['Authorization'] = 'Basic ' + btoa('student' + '|' + $rootScope.user.id + ":" + $rootScope.user.password);
                 if (location.hash == '' || location.hash.slice(1).trim() == '')
@@ -39,8 +39,10 @@ define(['./module', 'underscore', 'highcharts', 'store', 'jquery'], function (co
                 }
     }
 
-            }]);
+        }
 
+        init()
 
-
+        }])
+    
 });

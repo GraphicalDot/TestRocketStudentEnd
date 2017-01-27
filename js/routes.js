@@ -3,17 +3,50 @@
 define(['./newapp'], function(newapp) {
     'use strict';
     return newapp.config(function($stateProvider) {
-        $stateProvider.state('mock_tests',{
+        $stateProvider
+        .state('app',{
+            url: '/app',
+            templateUrl: 'templates/app.html',
+            controller: 'AppCtrl',
+            data: {
+                    css: 'js/css/app.css'
+                }
+        })
+
+        .state('app.mock_tests',{
             url: '/mock_tests',
             templateUrl: 'templates/mock_test_list.html',
             controller:'MockTestListCtrl'
+            
+
         })
-        .state('mock_test',{
-            url: '/mock_test?id&pushed_id&attempted&exam&attempted_id&test_name',
+        //Here onENter function is necessary because if a user refresh its page at /mock_test
+        //Then all the params will not be sent to the /mock_test controller as all the 
+        //necessary params would be at /mock_tests controller which calls the /mock_test
+        //So if user refresh the test when at read_instructions page, he will be taken back
+        //to /mock_tests page so that necessary params will be provided
+
+        //If a user tries to refresh the page 
+        .state('app.mock_test',{
+            //url: '/mock_test?id&pushed_id&attempted&exam&attempted_id&test_name',
+            url: '/mock_test',
+            params: {
+                    id: null,
+                    pushed_id: null,
+                    attempted: null,
+                    exam: null,
+                    attempted_id: null, 
+                    test_name: null
+                 },
             templateUrl: 'templates/mock_test.html',
+            onEnter: function($state, $stateParams){
+                if(!$stateParams.id && !$stateParams.exam){
+                    $state.go('app.mock_tests')
+                }
+            },
             controller: 'MockTestCtrl'
         })
-        .state('analysis',{
+        .state('app.analysis',{
             url: '/analysis',
             templateUrl: 'templates/cumulative_analysis.html',
             controller: 'CumulativeAnalysisCtrl'
@@ -43,11 +76,7 @@ define(['./newapp'], function(newapp) {
             
                 }
         })
-        .state('app',{
-            url: '/app',
-            templateUrl: 'templates/app.html',
-            controller: 'AppCtrl'
-        })
+       
 
 
     })

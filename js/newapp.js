@@ -84,7 +84,7 @@ define([
         $rootScope.URL = "http://localhost:8080" //This is the url on which all the backend apis will be accessed
         $rootScope.state = $state;
             $rootScope.$on('$stateChangeStart', function(event, toState,   toParams, fromState, fromParams){
-                if(fromState.name == 'mock_test' && $rootScope.testRunning == true){
+                if(fromState.name == 'app.mock_test' && $rootScope.testRunning == true){
                     var answer = confirm("You are attempting a test. Are you sure you want to leave this page?");
                     if (!answer) {
                         event.preventDefault();
@@ -110,7 +110,7 @@ define([
             var user = store.get('user');
 
             if (!user) {
-                console.log("User not signed in ")
+                console.log("User not signed in from newpp.js")
                 $state.transitionTo('main') 
             } else {
             $rootScope.user = store.get('user');
