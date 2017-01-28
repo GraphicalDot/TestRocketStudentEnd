@@ -150,7 +150,7 @@
         </div>
         <div class="content col-md-12 mb20" ng-click="selectQuestion($parent.$index, $index)" ng-repeat="question in subject.questions" style="border: 2px solid gray;cursor: pointer;background-color: white;">
             <em>Question no {{$index+1}}</em>
-            <div class="col-md-12 mb10" ng-bind-html="sce.trustAsHtml(question.content)">
+            <div class="col-md-12 mb10" mathjax-bind="true" ng-bind-html="sce.trustAsHtml(question.content)">
             </div>
             <div>
                 <ul style="list-style: none;margin-left: -39px;">
@@ -159,7 +159,7 @@
                             <div class="col-sm-1 text-center" style="font-weight:bold;">
                                 {{ letterAt($index) }}).
                             </div>
-                            <div class="col-sm-11" style="min-height: 51px;" ng-bind-html="sce.trustAsHtml(option)">
+                            <div class="col-sm-11" style="min-height: 51px;" mathjax-bind="true" ng-bind-html="sce.trustAsHtml(option)">
                             </div>
                         </div>
                     </li>

@@ -1,12 +1,39 @@
 //mockTestInstructions
 //enums are all custom services present in services folder
 
+
+//This controllers html has three sections which can be shown or hide based on the ng-show directives
+//"testRunning && (showInstructions || showQuestion || showQuestionList)
+// If one div ng-show directive is true, rest are hidden  
+//  ng-show="showInstructions"
+// If a user clickson the instructions button then this will become active and rest will hide
+//  ng-show="showQuestion"
+// 
+//  ng-show="showQuestionList" 
+//      This is to show all the questions all toghther in a list
+//  ng-show="showAnalysis">
+// If after the test user clicks on analysis, then rest will hide and this iwll be shown 
+
+// then the footer 
+//http://stackoverflow.com/questions/20623118/rendering-directives-within-sce-trustashtml
+// $sce.trustAsHtml and ng-bind-html are not meant to build HTML with directives. This technique will not work.
+
+// This is because angular works by first compiling and then linking. See the conceptual overview for a good explaination.
+
+// In short, by the time you link the HTML defined in your trustAsHtml, it is too late for angular to compile (and therefore understand) the ng-click directive.
+
+// In order to dynamically add HTML, you should be looking at the $compile service (and/or directives). Docs are here.
+
+
+
 define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) {
     'use strict';
     controllers.controller('MockTestCtrl', ['$scope', '$rootScope', '$state', '$interval', '$timeout', '$sce', 'Ontology', 'AttemptedMockTests',
         'AttemptedMockTest', 'StudentMockTestQuestions', 'enums', 'subjectClassMap', 'mockTestInstructions', '$document', 
         function ($scope, $rootScope, $state, $interval, $timeout, $sce, Ontology, AttemptedMockTests, AttemptedMockTest,
          StudentMockTestQuestions, Enums, subjectClassMap, mockTestInstructions, $document) {
+            console.log($state.params.id, $state.params.pushed_id) 
+
             var setAttemptViewStyle = function() {
                 $timeout(function() {
                     var headerPlusMargin = 65;
@@ -55,6 +82,35 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
                 new StudentMockTestQuestions.get({
                     mock_test_id: $state.params.id
                 }).$promise.then(function (resp) {
+
+                    //{'mock_test': <exam_app.models.mock_test.MockTest object at 0x7f5787500c10>,
+                    // subjects: [{u'order': 0,
+                    //              u'q_ids': [31, 32, 33, 34, 35,....60],
+                    //              'questions': [<exam_app.models.question.Question object at 0x7f57874ba1d0>, ...],
+                    //              'subject_id': u'1'}]}
+                    /*
+                     parser.add_argument('comprehension_text', type=unicode)
+
+        # the next field will be present when a comprehension question is updated
+        parser.add_argument('comprehension_id', type=int)
+
+        parser.add_argument('ontology_id', type=int)
+        parser.add_argument('nature', type=str)
+        parser.add_argument('type', type=str)
+        parser.add_argument('difficulty', type=str)
+        parser.add_argument('average_time', type=int)
+        parser.add_argument('content', type=unicode, required=True)
+        parser.add_argument('options', type=options_json_type, required=True)
+        parser.add_argument('text_solution', type=unicode)
+        parser.add_argument('video_solution_url', type=str)
+        parser.add_argument('text_solution_by', type=user_json_type)
+        parser.add_argument('video_solution_by', type=user_json_type)
+        parser.add_argument('proof_read_categorization', type=int, choices=[0,1])
+        parser.add_argument('proof_read_text_solution', type=int, choices=[0,1])
+        parser.add_argument('proof_read_video_solution', type=int, choices=[0,1])
+        parser.add_argument('error_reported', type=str, choices=['0', '1'])
+        */
+
                         if (resp.error) {
                             alert('Error attempting test');
                             hideLoader();
@@ -71,6 +127,9 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
 
                                 $scope.mock_test = resp.mock_test;
                                 $scope.showInstructions = false;
+                                //The joib of _.extend function is to include elements or overwrite elements
+                                //which werent present or were present in the originla from the newone
+
                                 var startInstant = (new Date()).valueOf();
                                 _.extend($scope.mockTest, {
                                     id: $scope.mock_test.id,
@@ -98,7 +157,9 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
                                         return subject;
                                     }),
                                     answeredCount: 0
-                                });
+                                }); //closing brackets for _.extend function
+                                //this function extend each each question with new atrributes like time
+                                //durations array, review, answered etc
 
                                 $scope.mockTest.currentSubjectIndex = 0;
 
@@ -388,6 +449,8 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
                 store.set('currentMockTest', $scope.mockTest);
             };
 
+            //This is the function which will be executed when the user clicks on Instructions button 
+            //on the right hand side of right panel
             $scope.showInstructionsView = function () {
                 $scope.showInstructions = true;
                 $scope.showQuestion = false;
@@ -395,6 +458,8 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
                 window.scrollTo(0, 0);
             };
 
+            //This is the function which will be executed when the user clicks on Question paper button 
+            //on the right hand side of right panel
             $scope.showQuestionsView = function () {
                 $scope.showInstructions = false;
                 $scope.showQuestion = false;
@@ -402,6 +467,8 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
                 window.scrollTo(0, 0);
             };
 
+            //This will be called when the user clicks on the Question Paper button, then he 
+            //sees all the questions and after that if he want to go back to the test
             $scope.showQuestionView = function () {
                 $scope.showInstructions = false;
                 $scope.showQuestion = true;
@@ -409,6 +476,10 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
                 window.scrollTo(0, 0);
             };
 
+
+            //This is called when the user clicks on the submit button for finishing up the test.
+            // This function will call AttemptedMockTests service and updates a attempted_mock_tests 
+            //table in the postgres 
             $scope.submit = function () {
                 if('1'=='2'){
                     mixpanel.track("Mock Test Finished", {
@@ -459,8 +530,11 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
                 $scope.mockTest.start = $scope.mockTest.start / 1000;
                 $scope.mockTest.end = $scope.mockTest.end / 1000;
 
-                AttemptedMockTests.submit({
-                    pushed_mock_test_id: $scope.mockTest.pushed_id,
+                console.log("pushed id" + $scope.mockTest.pushed_id)
+                console.log("mock_test" + $scope.mockTest.id)
+                AttemptedMockTests.submitpost({
+                   // pushed_mock_test_id: $scope.mockTest.pushed_id,
+                    pushed_mock_test_id: 0,
                     mock_test_id: $scope.mockTest.id,
                     answers: angular.toJson(answers)
                 })
@@ -469,6 +543,9 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
                         $rootScope.testRunning = false;
                         $scope.attempted_id = data.attempted_mock_test.id;
                         getAnalysis();
+                    }, function(errResponse){
+                            console.log(errResponse)
+
                     });
             };
 

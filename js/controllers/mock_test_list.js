@@ -16,6 +16,18 @@ define(['./module', 'underscore'], function (controllers, _) {
         var ontology = Ontology.list();
 
         //""http://localhost:8080" + '/student_mock_test'
+        // mocket_tests in this response is a dictionary with taget exams 
+        // '0'                                      # institute mock tests
+        //'1' full mock tests
+            // '2'                                          # part mock tests
+            // '3'                                          # subject mock tests
+            // '4'                                          # chapter mock tests
+        //TARGET_EXAMS = {'1': 'JEE Advanced', '2': 'JEE Mains', '3': 'BITSAT',
+        // '4': 'AIPMT', '5': 'AIIMS', '6': 'NTSE'}
+        // so mock_tests in response will be a dict of dict with parent dict corresponds to institute_mock_test
+        // part_mock_tests, subject_mock_tests, chapter_mock_tests
+        // ANd each of this key will then have tests corresponding to target exams, which is
+        //also represented by integer keys from 1 to 5.
          //         {'institute_name': None,
          // 'mock_tests': {'0': {},
          //                '1': {'1': {'attempted': [],
@@ -66,8 +78,16 @@ define(['./module', 'underscore'], function (controllers, _) {
                 });
 
                 // get mock tests that the student has attempted or can attempt
+                //This loop willl iterate over 0, 1, 2, 3, 4 present in mock_tests, 
+                //so mockTestType will be 0, 1, 2, 3 and 4
                 for (var mockTestType in $scope.studentMockTests) {
+                    //now for the abpove mentioned response in this case, targetExam 
+                    // will only be avilable for mockTestsType 1 as rest are empty
                     for (var targetExam in $scope.studentMockTests[mockTestType]) {
+
+                        //below statement will get name of target exam from the int in mock_tests dict
+                        //$scope.Enums.TARGET_EXAMS = {'1': 'JEE Advanced', 
+                        //'2': 'JEE Mains', '3': 'BITSAT', '4': 'AIPMT', '5': 'AIIMS', '6': 'NTSE'},
                         $scope.studentMockTests[mockTestType][targetExam].name = $scope.Enums.TARGET_EXAMS[targetExam];
                         $scope.studentMockTests[mockTestType][targetExam].showMore = false;
                         // combine attempted and not attempted mock tests in an array
@@ -82,6 +102,7 @@ define(['./module', 'underscore'], function (controllers, _) {
                             })
                         );
 
+                        // This block will be executed if mockTestType == "subject mock test"
                         if (mockTestType == '3' && $scope.studentMockTests[mockTestType][targetExam].all.length > 0) {
                             $scope.studentMockTests[mockTestType][targetExam].subjects = {};
                             $scope.studentMockTests[mockTestType][targetExam].all.forEach(function(mockTest) {
@@ -95,7 +116,7 @@ define(['./module', 'underscore'], function (controllers, _) {
                                     }
                             });
                         }
-
+                        // This block will be executed if mockTestType == "chapter mock test"
                         if (mockTestType == '4' && $scope.studentMockTests[mockTestType][targetExam].all.length > 0) {
 
                             $scope.studentMockTests[mockTestType][targetExam].chapters = {};
@@ -262,7 +283,8 @@ define(['./module', 'underscore'], function (controllers, _) {
                 }
             } else {
                 showLoader();
-                $state.go('app.mock_test', {id: mockTest.id, pushed_id: mockTest.pushed_id, attempted: mockTest.attempted, attempted_id: mockTest.attempted_id, exam: targetExam, test_name: mockTest.name});
+                //$state.go('app.mock_test', {id: mockTest.id, pushed_id: mockTest.pushed_id, attempted: mockTest.attempted, attempted_id: mockTest.attempted_id, exam: targetExam, test_name: mockTest.name});
+                $state.go('app.mock_test', {id: mockTest.id, pushed_id: 0, attempted: mockTest.attempted, attempted_id: mockTest.attempted_id, exam: targetExam, test_name: mockTest.name});
             }
 
         };
