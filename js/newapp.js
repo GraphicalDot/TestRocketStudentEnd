@@ -131,28 +131,44 @@ define([
             }])
  
     newapp.directive('mathjaxBind', function ($compile) {
-        return {
-            restrict: 'A',
-            replace: true,
-            link: function (scope, ele, attrs) {
-                scope.$watch(function(scope){
-                    return attrs.id;
-                }, function(html) {
-                    var contents = ele.find('script');
-                    _.each(contents, function(content){
-                        MathJax.Hub.Queue(["Typeset", MathJax.Hub, content]);
-                        setTimeout(function(){
-                            $('.MathJax').each(function () {
-                                this.style.setProperty( 'text-align', 'inherit', 'important' );
-                                this.style.setProperty( 'display', 'inline-block', 'important' );
-                                this.style.setProperty( 'width', 'inherit', 'important' );
-                                this.style.setProperty( 'margin', 'initial', 'important' );
-                            });
-                        }, 1.5e3);
-                    });
-                });
-            }
-        };
+       
+        // return {
+        //     restrict: 'A',
+        //     replace: true,
+        //     link: function (scope, ele, attrs) {
+        //         scope.$watch(function(scope){
+        //             return attrs.id;
+        //         }, function(html) {
+        //             var contents = ele.find('script');
+        //             _.each(contents, function(content){
+        //                 MathJax.Hub.Queue(["Typeset", MathJax.Hub, content]);
+        //                 setTimeout(function(){
+        //                     $('.MathJax').each(function () {
+        //                         this.style.setProperty( 'text-align', 'inherit', 'important' );
+        //                         this.style.setProperty( 'display', 'inline-block', 'important' );
+        //                         this.style.setProperty( 'width', 'inherit', 'important' );
+        //                         this.style.setProperty( 'margin', 'initial', 'important' );
+        //                     });
+        //                 }, 1.5e3);
+        //             });
+        //         });
+        //     }
+        // };
+    
+return {
+        restrict: "A",
+        controller: ["$scope", "$element", "$attrs", function($scope, $element, $attrs) {
+            $scope.$watch($attrs.mathjaxBind, function(value) {
+                var $script = angular.element("<script type='math/mml'>")
+                    .html(value == undefined ? "" : value);
+                $element.html("");
+                $element.append($script);
+                MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $element[0]]);
+            });
+        }]
+    };
+
+
     });
 
     return newapp;

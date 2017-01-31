@@ -532,9 +532,10 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
 
                 console.log("pushed id" + $scope.mockTest.pushed_id)
                 console.log("mock_test" + $scope.mockTest.id)
+                console.log(angular.toJson(answers))
                 AttemptedMockTests.submitpost({
                    // pushed_mock_test_id: $scope.mockTest.pushed_id,
-                    pushed_mock_test_id: 0,
+                    pushed_mock_test_id: $scope.mockTest.pushed_id,
                     mock_test_id: $scope.mockTest.id,
                     answers: angular.toJson(answers)
                 })
@@ -545,6 +546,7 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
                         getAnalysis();
                     }, function(errResponse){
                             console.log(errResponse)
+                            $state.go("app.mock_tests")
 
                     });
             };

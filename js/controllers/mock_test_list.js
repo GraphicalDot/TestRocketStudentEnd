@@ -269,7 +269,7 @@ define(['./module', 'underscore'], function (controllers, _) {
                         if (prerequisiteMockTest) {
                             if (prerequisiteMockTest.attempted) {
                                 showLoader();
-                                $state.go('mock_test', {id: mockTest.id, pushed_id: mockTest.pushed_id, attempted: mockTest.attempted, attempted_id: mockTest.attempted_id, exam: targetExam});
+                                $state.go('app.mock_test', {id: mockTest.id, pushed_id: mockTest.pushed_id, attempted: mockTest.attempted, attempted_id: mockTest.attempted_id, exam: targetExam});
                                 return false;
                             }
                             else {
@@ -283,8 +283,9 @@ define(['./module', 'underscore'], function (controllers, _) {
                 }
             } else {
                 showLoader();
+                console.log("This is the mocktest puished id from mock_test_list.js" + mockTest.pushed_id )
                 //$state.go('app.mock_test', {id: mockTest.id, pushed_id: mockTest.pushed_id, attempted: mockTest.attempted, attempted_id: mockTest.attempted_id, exam: targetExam, test_name: mockTest.name});
-                $state.go('app.mock_test', {id: mockTest.id, pushed_id: 0, attempted: mockTest.attempted, attempted_id: mockTest.attempted_id, exam: targetExam, test_name: mockTest.name});
+                $state.go('app.mock_test', {id: mockTest.id, pushed_id: mockTest.pushed_id, attempted: mockTest.attempted, attempted_id: mockTest.attempted_id, exam: targetExam, test_name: mockTest.name});
             }
 
         };

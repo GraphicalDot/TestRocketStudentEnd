@@ -74,20 +74,39 @@ require.config({
         underscore: {
             exports: '_'
         },
+
+        
+        // mathjax: {
+        //     exports: "MathJax",
+        //     init: function () {
+        //         MathJax.Hub.Config({
+        //             messageStyle: "none",
+        //             tex2jax: {
+        //                 skipTags: ["script", "noscript", "style"],
+        //                 extensions: ["mml2jax.js"]
+        //             }
+        //         });
+        //         MathJax.Hub.Startup.onload();
+        //         return MathJax;
+        //     }
+        // }, 
+
         mathjax: {
             exports: "MathJax",
             init: function () {
                 MathJax.Hub.Config({
-                    messageStyle: "none",
-                    /*tex2jax: {
-                        skipTags: ["script", "noscript", "style"],
-                        extensions: ["mml2jax.js"]
-                    }*/
+                        skipStartupTypeset: true,
+    messageStyle: "none",
+    "HTML-CSS": {
+        showMathMenu: false
+    }
                 });
                 MathJax.Hub.Startup.onload();
                 return MathJax;
             }
         },
+
+
         'angular-youtube-embed': {
             deps: ['angular']
         },
