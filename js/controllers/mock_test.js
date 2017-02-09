@@ -32,7 +32,7 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
         'AttemptedMockTest', 'StudentMockTestQuestions', 'enums', 'subjectClassMap', 'mockTestInstructions', '$document', 
         function ($scope, $rootScope, $state, $interval, $timeout, $sce, Ontology, AttemptedMockTests, AttemptedMockTest,
          StudentMockTestQuestions, Enums, subjectClassMap, mockTestInstructions, $document) {
-            console.log($state.params.id, $state.params.pushed_id) 
+            console.log($state.params.id, $state.params.pushed_id, $state.params.attempted) 
 
             var setAttemptViewStyle = function() {
                 $timeout(function() {
@@ -65,6 +65,11 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
             $scope.getSubjectClassName = function (subjectName) {
                 return subjectClassMap[subjectName.toLowerCase().replace(/\W+/g, "-")];
             };
+
+            //If the students has already have attempted the test, 
+            //If yes then the user must be reduirected to analysis page, Which is done by getAnalysis function 
+            //present in this controller
+           
 
             $scope.startTest = function () {
                 /*
@@ -532,7 +537,7 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
 
                 console.log("pushed id" + $scope.mockTest.pushed_id)
                 console.log("mock_test" + $scope.mockTest.id)
-                console.log(angular.toJson(answers))
+                //console.log(angular.toJson(answers))
                 AttemptedMockTests.submitpost({
                    // pushed_mock_test_id: $scope.mockTest.pushed_id,
                     pushed_mock_test_id: $scope.mockTest.pushed_id,
@@ -742,7 +747,9 @@ define(['./module', 'store', 'mathjax'], function (controllers, store, MathJax) 
             var currentMockTest = store.get('currentMockTest');
 
             // test has been attempted, show analysis
-            if ($state.params.attempted == 'true') {
+            if ($state.params.attempted) {
+                console.log("Student has already have attemped this test so redirecting to anaylsis")
+                
                 store.remove('currentMockTest');
                 getAnalysis();
                 return;

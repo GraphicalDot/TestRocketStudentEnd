@@ -308,7 +308,7 @@
                     </div>
                     <div ng-show="questionsResponse[modalQuestionId].status.proof_read_text_solution == '1'">
                         <h4><strong>TEXT SOLUTION</strong></h4>
-                        <h4 ng-bind-html="sce.trustAsHtml(questionsResponse[modalQuestionId].text_solution)"></h4>
+                        <h4 ng-bind-html="sce.trustAsHtml(questionsResponse[modalQuestionId].text_solution)" mathjax-bind="true" ></h4>
                     </div>
                     <div ng-show="questionsResponse[modalQuestionId].status.proof_read_video_solution == '1'">
                         <h4><strong>VIDEO SOLUTION</strong></h4>
