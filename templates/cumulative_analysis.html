@@ -137,7 +137,7 @@
         <div class="panel-body subject-analysis">
             <div class="row" ng-repeat="chunk in data.topic_ids | partition:4">
                 <div class="row">
-                    <div class="col-md-3" ng-repeat="topic_id in chunk">
+                    <div class="col-md-3" ng-repeat="topic_id in chunk" mathjax-bind="true">
                         <div class="panel panel-stat" style="cursor: pointer;" ng-click="showTopicQuestions(topic_id)" ng-class="{'panel-primary': topic_id != shownTopic, 'panel-success': topic_id == shownTopic}">
                             <div class="panel-heading">
                                 <div class="stat">
@@ -166,12 +166,15 @@
                         </div> <!-- panel panel-primary panel-stat -->
                     </div> <!-- col-md-3 -->
                 </div> <!-- row -->
-                <div class="row" style="padding-left: 25px;">
-                    <div class="col-sm-6 col-md-12" ng-repeat="topic_id in chunk" ng-show="shownTopic == topic_id">
+                <div class="row" style="padding-left: 25px;" >
+
+
+                    <!-- Now iterating over the topics--> 
+                    <div class="col-sm-6 col-md-12" ng-repeat="topic_id in chunk" ng-show="shownTopic == topic_id" mathjax-bind="true">
                         <div class="panel indivual-ques-analysis-view" data-id="{{ tpl[0] }}" ng-repeat="tpl in [].concat(analysis.topics[topic_id].correct_t, analysis.topics[topic_id].incorrect_t, analysis.topics[topic_id].not_attempted_t)"
                              ng-class="{'panel-primary': data.perfect_attempts[tpl[1]].indexOf(tpl[0]) == -1 && data.overtime_attempts[tpl[1]].indexOf(tpl[0]) == -1 && data.wasted_attempts[tpl[1]].indexOf(tpl[0]) == -1 && data.completely_wasted_attempts[tpl[1]].indexOf(tpl[0]) == -1,
                                      'panel-success': data.perfect_attempts[tpl[1]].indexOf(tpl[0]) > -1 || data.overtime_attempts[tpl[1]].indexOf(tpl[0]) > -1,
-                                     'panel-danger': data.wasted_attempts[tpl[1]].indexOf(tpl[0]) > -1 || data.completely_wasted_attempts[tpl[1]].indexOf(tpl[0]) > -1}">
+                                     'panel-danger': data.wasted_attempts[tpl[1]].indexOf(tpl[0]) > -1 || data.completely_wasted_attempts[tpl[1]].indexOf(tpl[0]) > -1}"  mathjax-bind="true">
                             <div class="panel-heading" style="color: white;">
                                 <div class="row">
                                     <div class="col-md-1">
@@ -215,7 +218,7 @@
                                 <div class="row">
                                     <div class="col-md-4 col-md-offset-8">
                                         <div class="solution-concept-ques-analysis-buttons">
-                                            <button class="btn btn-warning" ng-show="[questionsResponse[tpl[0]].status.proof_read_text_solution, questionsResponse[tpl[0]].status.proof_read_video_solution].indexOf('1') > -1" ng-click="showSolution(tpl[0])">View Solution</button>
+                                            <button class="btn btn-warning" ng-show="[questionsResponse[tpl[0]].status.proof_read_text_solution, questionsResponse[tpl[0]].status.proof_read_video_solution].indexOf('1') > -1" ng-click="showSolution(tpl[0])" mathjax-bind="true">View Solution</button>
                                             <button class="btn btn-warning" ng-show="ontology[questionsResponse[tpl[0]].ontology[questionsResponse[tpl[0]].ontology.length-1]].theory" ng-click="showConcept(tpl[0])">View Key Concept</button>
                                         </div> <!-- solution-concept-ques-analysis-buttons -->
                                     </div> <!-- col-md-4 col-md-offset-8 -->
@@ -228,7 +231,9 @@
                                                 <li class="content question-options question-answer-option" ng-repeat="option in questionsResponse[tpl[0]].all_options track by $index">
                                                     <div class="opt-container" ng-class="{'correct-opt-container': questionsResponse[tpl[0]].correct_options.indexOf($index) > -1, 'incorrect-opt-container': answers[tpl[1]][tpl[0]].options.indexOf($index) > -1 && questionsResponse[tpl[0]].correct_options.indexOf($index) == -1}">
                                                         <span class="top-option-label answer-option-label" ng-class="{'correct': questionsResponse[tpl[0]].correct_options.indexOf($index) > -1, 'incorrect': answers[tpl[1]][tpl[0]].options.indexOf($index) > -1 && questionsResponse[tpl[0]].correct_options.indexOf($index) == -1, 'not_attempted': answers[tpl[1]][tpl[0]].options.indexOf($index) == -1 && questionsResponse[tpl[0]].correct_options.indexOf($index) == -1}">{{ letterAt($index) }}</span>
-                                                        <div class="question-answer-text" ng-bind-html="sce.trustAsHtml(option)"></div> <!-- question-answer-text -->
+                                                        <div class="question-answer-text" ng-bind-html="sce.trustAsHtml(option)" mathjax-bind="true"></div> 
+                                                        <!-- question-answer-text -->
+                                                
                                                 <span class="bottom-option-label correct question-correct-wrong-label" ng-if="questionsResponse[tpl[0]].correct_options.indexOf($index) > -1 && answers[tpl[1]][tpl[0]].options.indexOf($index) == -1">
                                                      <span class="glyphicon glyphicon-ok"></span> Correct Answer
                                                 </span> <!-- bottom-option-label correct question-correct-wrong-label -->
@@ -259,6 +264,7 @@
 </div>
 
 <div ng-show="attemptedMockTests && qAnalysisVisisble">
+    <!--This id will be visible when user clicks ont he View question wise analysis button -->
     <ng-include src="'./templates/cumulative_question_wise_analysis.html'"></ng-include>
 </div>
 
@@ -290,9 +296,9 @@
                 <div class="media-body" style="background: white;">
                     <div>
                         <h4><strong>QUESTION</strong></h4>
-                        <h4 class="filename" data-id="{{ questionsResponse[modalQuestionId].id }}" ng-bind-html="sce.trustAsHtml(questionsResponse[modalQuestionId].content)"></h4>
-                        <ul style="list-style: none;padding: 0px;border-bottom: 1px solid #dedede;">
-                            <li class="content question-options" ng-repeat="option in questionsResponse[modalQuestionId].correct_options track by $index" style="padding: 0 !important;position: relative;">
+                        <h4 class="filename" data-id="{{ questionsResponse[modalQuestionId].id }}" ng-bind-html="sce.trustAsHtml(questionsResponse[modalQuestionId].content)" mathjax-bind="true"></h4>
+                        <ul style="list-style: none;padding: 0px;border-bottom: 1px solid #dedede;" >
+                            <li class="content question-options" ng-repeat="option in questionsResponse[modalQuestionId].correct_options track by $index" style="padding: 0 !important;position: relative;" mathjax-bind="true">
                                 <div class="opt-container correct-opt-container">
                                     <div class="" style="margin-top: 20px;min-height: 45px;margin-left: 45px;" ng-bind-html="sce.trustAsHtml(questionsResponse[modalQuestionId].all_options[option])">
                                     </div>

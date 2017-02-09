@@ -38,6 +38,7 @@ define(['./module', 'underscore', 'highcharts', 'store', 'jquery'], function (co
                         'email': $rootScope.user.email
                     });
                 }
+                $state.transitionTo('app.mock_tests')
     }
 
         }

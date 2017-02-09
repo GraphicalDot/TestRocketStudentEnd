@@ -94,15 +94,29 @@ require.config({
         mathjax: {
             exports: "MathJax",
             init: function () {
+
                 MathJax.Hub.Config({
-                        skipStartupTypeset: true,
-    messageStyle: "none",
-    "HTML-CSS": {
-        showMathMenu: false
-    }
+                 jax: ["input/MathML", "output/HTML-CSS"],
+                 extensions: ["mml2jax.js"],
+                 "HTML-CSS": {
+                     preferredFont: "STIX"
+                    },
+                menuSettings: {CHTMLpreview: false},
+                 mml2jax: {
+                     preview: "mathml"
+                    },
+                 MathML: {
+                     useMathMLspacing: true
+                    },
+                    preRemoveClass: "MathJax_Preview",
+                skipStartupTypeset: true,
+                         messageStyle: "none",
+                        "HTML-CSS": {
+                                showMathMenu: false
+                         }
                 });
                 MathJax.Hub.Startup.onload();
-                return MathJax;
+                    return MathJax;
             }
         },
 

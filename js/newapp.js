@@ -132,41 +132,67 @@ define([
  
     newapp.directive('mathjaxBind', function ($compile) {
        
-        // return {
-        //     restrict: 'A',
-        //     replace: true,
-        //     link: function (scope, ele, attrs) {
-        //         scope.$watch(function(scope){
-        //             return attrs.id;
-        //         }, function(html) {
-        //             var contents = ele.find('script');
-        //             _.each(contents, function(content){
-        //                 MathJax.Hub.Queue(["Typeset", MathJax.Hub, content]);
-        //                 setTimeout(function(){
-        //                     $('.MathJax').each(function () {
-        //                         this.style.setProperty( 'text-align', 'inherit', 'important' );
-        //                         this.style.setProperty( 'display', 'inline-block', 'important' );
-        //                         this.style.setProperty( 'width', 'inherit', 'important' );
-        //                         this.style.setProperty( 'margin', 'initial', 'important' );
-        //                     });
-        //                 }, 1.5e3);
-        //             });
-        //         });
-        //     }
-        // };
+        return {
+            restrict: 'A',
+            replace: true,
+            link: function (scope, ele, attrs) {
+                scope.$watch(function(scope){
+                    return attrs.id;
+                }, function(html) {
+                    var queue = [], typesetting = false;
+                    var contents = ele.find('script');
+                    
+
+                    // console.log(contents)
+                    // _.each(contents, function(content){
+                    //     MathJax.Hub.Queue(["Typeset", MathJax.Hub, content]);
+                    //     setTimeout(function(){
+                    //         $('.MathJax').each(function () {
+                    //             this.style.setProperty( 'text-align', 'inherit', 'important' );
+                    //             this.style.setProperty( 'display', 'inline-block', 'important' );
+                    //             this.style.setProperty( 'width', 'inherit', 'important' );
+                    //             this.style.setProperty( 'margin', 'initial', 'important' );
+                    //         });
+                    //     }, 1.5e3);
+                    // });
+                
+                    function done() {
+                            if (queue && queue.length) start();
+                                    else typesetting = false;
+                                }
+                    function start() {
+                             var q = queue;
+                             queue = [];
+                            MathJax.Hub.Queue(['Process', MathJax.Hub, q, done]);
+                            }
+                    function typeset(script) {
+                        queue.push(script);
+                            if (!typesetting) {
+                                typesetting = true;
+                                start();
+                            }
+                        }
+                    for (var k = 0; k < contents.length; k++)
+                            typeset(contents[k]);
+
+
+
+                });
+            }
+        };
     
-return {
-        restrict: "A",
-        controller: ["$scope", "$element", "$attrs", function($scope, $element, $attrs) {
-            $scope.$watch($attrs.mathjaxBind, function(value) {
-                var $script = angular.element("<script type='math/mml'>")
-                    .html(value == undefined ? "" : value);
-                $element.html("");
-                $element.append($script);
-                MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $element[0]]);
-            });
-        }]
-    };
+// return {
+//         restrict: "A",
+//         controller: ["$scope", "$element", "$attrs", function($scope, $element, $attrs) {
+//             $scope.$watch($attrs.mathjaxBind, function(value) {
+//                 var $script = angular.element("<script type='math/mml'>")
+//                     .html(value == undefined ? "" : value);
+//                 $element.html("");
+//                 $element.append($script);
+//                 MathJax.Hub.Queue(["Reprocess", MathJax.Hub, $element[0]]);
+//             });
+//         }]
+//     };
 
 
     });

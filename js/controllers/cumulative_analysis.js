@@ -13,6 +13,7 @@ define(['./module', 'underscore', 'highcharts', 'store', 'jquery'], function (co
             };
 
             $scope.showQAnalysis = function () {
+                //Will be executed when the user clicks on the view questionwise analysis button
                 $scope.qAnalysisVisisble = true;
                 $scope.mAnalysisVisisble = false;
             };
